@@ -3,7 +3,7 @@
 #include "sge/spritebatch.h"
 #include "sge/texture.h"
 #include <vector>
-#include "ui/win.h"
+#include "win.h"
 #include <list>
 #include <glm/glm.hpp>
 #include "sge/font.h"
