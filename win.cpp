@@ -1,6 +1,6 @@
-#include "ui/win.h"
+#include "sge_ui/win.h"
 #include <glm/glm.hpp>
-#include "ui/wins.h"
+#include "sge_ui/wins.h"
 #include "sge/mouse.h"
 #include <vector>
 #include "sge/colorextender.h"
@@ -8,7 +8,6 @@
 #include "sge/prefecences.h"
 
 Win::Win(WContainer *par) :
-    col(0,0,0,0.75),
     WContainer(par)
 {
     closeb = new Button(this);
@@ -29,7 +28,7 @@ Win::~Win()
 void Win::Draw() const
 {
     SpriteBatch& sb = *WinS::sb;
-    WinS *ws = WinS::ws;
+    //WinS *ws = WinS::ws;
 
     sb.drawRect(pos, size, WinS::color.basic);
 
@@ -42,7 +41,7 @@ void Win::Draw() const
 
     sb.drawText(text, {pos.x + 5, pos.y}, WinS::f, WinS::color.text);
 
-    closeb->Draw();
+    if(!closeb->hidden) closeb->Draw();
 
     WContainer::Draw();
 }
@@ -50,7 +49,7 @@ void Win::Draw() const
 void Win::Update()
 {
     glm::vec2 wpos = globalPos();
-    if(!WinS::MouseHooked && inLimsV(Mouse::getCursorLastPos(), wpos, wpos + glm::vec2(size.x - 20, header)))
+    if(!WinS::MouseHooked && inLimsVec2(Mouse::getCursorLastPos(), wpos, wpos + glm::vec2(size.x - 20, header)))
     {
         if(Mouse::isLeftPressed())
         {
@@ -63,7 +62,7 @@ void Win::Update()
     else
         dragged = false;
 
-    if(!WinS::MouseHooked && inLimsV(Mouse::getCursorLastPos(), wpos + glm::vec2(size.x - 10, size.y - 10), wpos + size))
+    if(!WinS::MouseHooked && inLimsVec2(Mouse::getCursorLastPos(), wpos + glm::vec2(size.x - 10, size.y - 10), wpos + size))
     {
         Mouse::state = Mouse::STATE_RESIZE;
         if(Mouse::isLeftPressed())
@@ -75,19 +74,20 @@ void Win::Update()
     if(Mouse::IsLeftDown() && resizing)
     {
         size = glm::vec2(Mouse::getCursorPos().x, Mouse::getCursorLastPos().y) - resize_point;
-        if(size.y < 40)
+        if(size.y < 40) {
             size.y = 40;
-        if(size.x < 100)
+        }
+        if(size.x < 100) {
             size.x = 100;
-        if(onResize)
+        }
+        if(onResize) {
             onResize();
+        }
     }
     else
         resizing = false;
 
-    WContainer::Update();
-
-    if(!WinS::MouseHooked && inLimsV(Mouse::getCursorLastPos(), wpos, wpos + size))
+    if(!WinS::MouseHooked && inLimsVec2(Mouse::getCursorLastPos(), wpos, wpos + size) && !hidden)
     {
         if(Mouse::IsLeftDown())
         {
@@ -95,6 +95,8 @@ void Win::Update()
         }
         WinS::MouseHooked = true;
     }
+
+    WContainer::Update();
 }
 
 void Win::MoveUnderCur()

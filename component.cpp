@@ -97,7 +97,7 @@ void WContainer::Update()
 
         i->Update();
 
-        if(!mouse_hook && inLimsV(Mouse::getCursorPos(), i->globalPos(), i->globalPos() + i->size))
+        if(!mouse_hook && inLimsVec2(Mouse::getCursorPos(), i->globalPos(), i->globalPos() + i->size))
         {
             i->aimed = true;
             if(Mouse::isLeftPressed() && i->onLeftPress)

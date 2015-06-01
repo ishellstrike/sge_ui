@@ -7,7 +7,6 @@
 Button::Button(WContainer *par) :
     WComponent(par)
 {
-    color = Color::LightGrey;
 }
 
 Button::~Button()

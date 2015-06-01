@@ -20,6 +20,7 @@ public:
 
     void Update();
     void ToTop(WComponent *w);
+    void CloseTop();
     static SpriteBatch *sb;
     static Font *f;
     static WinS *ws;

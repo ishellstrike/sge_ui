@@ -15,7 +15,6 @@ ListContainer::ListContainer(WContainer *par) :
     {
         auto l = new Label(this);
         l->text("test"+std::to_string(i));
-        l->aimed_color = Color::Yellow;
     }
 
     size = {150,50};

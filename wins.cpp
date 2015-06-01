@@ -1,4 +1,4 @@
-#include "ui/wins.h"
+#include "sge_ui/wins.h"
 #include <vector>
 #include <list>
 #include "sge/mouse.h"
@@ -28,26 +28,37 @@ WinS::~WinS()
 
 void WinS::Draw() const
 {
-    if(Items.size() > 0) {
-        for (unsigned int i =0; i< Items.size(); i++)
-        {
-            if(!Items.at(i)->hidden)
-                Items.at(i)->Draw();
-            WinS::sb->resetScissor();
+    for(auto &i : Items) {
+        if(!i->hidden) {
+            i->Draw();
         }
+        WinS::sb->resetScissor();
     }
 }
 
 void WinS::ToTop(WComponent* w) {
     bool b = false;
     int i = 0;
-    for (auto iter = Items.begin(); iter != --Items.end(); ++iter) {
+    decltype(Items.end()) last_e = --Items.end();
+    for (auto iter = Items.begin(); iter != last_e; ++iter) {
         if(iter->get() == w || b) {
-            Items[i].swap(Items[i+1]);
+            std::swap(Items[i], Items[i+1]);
             b = true;
         }
         i++;
     }
+}
+
+void WinS::CloseTop()
+{
+    for (auto iter = Items.begin(); iter != Items.end(); ++iter) {
+        Win *w = static_cast<Win*>(iter->get());
+        if(!w->closeb->hidden && !w->hidden) {
+            w->hidden = true;
+            return;
+        }
+    }
+    return;
 }
 
 void WinS::Update() {
@@ -59,7 +70,7 @@ void WinS::Update() {
     KeyboardHooked = false;
     if(Items.size() > 0)
         Items[Items.size() - 1]->Update();
-    KeyboardHooked = true;
+    KeyboardHooked = true; //only top win can read keyboard
 
     for (auto i = Items.rbegin(); i != Items.rend(); ++i)
     {

@@ -31,8 +31,6 @@ public:
 
     glm::vec2 pos;
     glm::vec2 size;
-    glm::vec4 color = Color::White;
-    glm::vec4 aimed_color = Color::White;
 
     ANCHOR anchor = ANCHOR_TOP_LEFT;
     std::function<void()> onRightPress, onLeftPress;

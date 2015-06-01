@@ -21,7 +21,9 @@ public:
     void MoveUnderCur();
     std::function<void()> onResize;
 
-    glm::vec4 col;
+    bool movable = false;
+    bool resizable = false;
+
     std::string text;
 
     Button *closeb;
