@@ -1,8 +1,8 @@
 #include "button.h"
 #include "wins.h"
-#include "sge/colorextender.h"
-#include "sge/mouse.h"
-#include "sge/helper.h"
+#include "../colorextender.h"
+#include "../mouse.h"
+#include "../helper.h"
 
 Button::Button(WContainer *par) :
     WComponent(par)

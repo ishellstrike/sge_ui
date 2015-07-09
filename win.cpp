@@ -1,11 +1,11 @@
-#include "sge_ui/win.h"
+#include "win.h"
 #include <glm/glm.hpp>
-#include "sge_ui/wins.h"
-#include "sge/mouse.h"
+#include "wins.h"
+#include "../mouse.h"
 #include <vector>
-#include "sge/colorextender.h"
-#include "sge/helper.h"
-#include "sge/prefecences.h"
+#include "../colorextender.h"
+#include "../helper.h"
+#include "../prefecences.h"
 
 Win::Win(WContainer *par) :
     WContainer(par)

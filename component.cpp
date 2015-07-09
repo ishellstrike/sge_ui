@@ -1,7 +1,7 @@
 #include "wins.h"
 #include "component.h"
-#include "sge/mouse.h"
-#include "sge/helper.h"
+#include "../mouse.h"
+#include "../helper.h"
 
 
 WComponent::WComponent(WContainer *par)

@@ -1,6 +1,6 @@
 #include "vertical_bar.h"
-#include "sge/spritebatch.h"
-#include "sge/colorextender.h"
+#include "../spritebatch.h"
+#include "../colorextender.h"
 #include "wins.h"
 
 VerticalBar::VerticalBar(WContainer* par) :

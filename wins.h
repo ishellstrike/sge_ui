@@ -1,13 +1,13 @@
 #ifndef WinS_h__
 #define WinS_h__
-#include "sge/spritebatch.h"
-#include "sge/texture.h"
+#include "../spritebatch.h"
+#include "../resources/texture.h"
 #include <vector>
 #include "win.h"
 #include <list>
 #include <glm/glm.hpp>
-#include "sge/font.h"
-#include "sge/colorscheme.h"
+#include "../font.h"
+#include "../colorscheme.h"
 
 class WinS : public WContainer{
 public:

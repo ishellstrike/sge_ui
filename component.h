@@ -6,7 +6,7 @@
 #include <memory>
 #include "wcontainer.h"
 #include <functional>
-#include "sge/colorextender.h"
+#include "../colorextender.h"
 
 class WContainer;
 class WComponent {

@@ -1,7 +1,7 @@
 #include "graph.h"
-#include "sge/spritebatch.h"
+#include "../spritebatch.h"
 #include "wins.h"
-#include "sge/colorextender.h"
+#include "../colorextender.h"
 #include <algorithm>
 
 Graph::Graph(WContainer *par) :

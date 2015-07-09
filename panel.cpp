@@ -1,7 +1,7 @@
 #include "panel.h"
-#include "sge/spritebatch.h"
+#include "../spritebatch.h"
 #include "wins.h"
-#include "sge/colorextender.h"
+#include "../colorextender.h"
 
 Panel::Panel(WContainer *par) :
     WContainer(par)

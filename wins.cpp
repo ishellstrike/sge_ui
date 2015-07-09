@@ -1,11 +1,11 @@
-#include "sge_ui/wins.h"
+#include "wins.h"
 #include <vector>
 #include <list>
-#include "sge/mouse.h"
+#include "../mouse.h"
 #include <string>
 #include <memory>
 #include <algorithm>
-#include "sge/prefecences.h"
+#include "../prefecences.h"
 
 WinS::WinS() :
     WContainer()
