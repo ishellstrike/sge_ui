@@ -42,9 +42,9 @@ void Graph::Draw() const
     WComponent::Draw();
 }
 
-void Graph::Update()
+void Graph::Update(const GameTimer &gt)
 {
-    WComponent::Update();
+    WComponent::Update(gt);
 }
 
 void Graph::AddValue(float a)

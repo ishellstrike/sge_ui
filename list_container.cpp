@@ -95,8 +95,8 @@ void ListContainer::Draw() const
     WContainer::Draw();
 }
 
-void ListContainer::Update()
+void ListContainer::Update(const GameTimer &gt)
 {
     bar->size.y = size.y - 40;
-    WContainer::Update();
+    WContainer::Update(gt);
 }

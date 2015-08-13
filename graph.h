@@ -9,7 +9,7 @@ public:
     Graph(WContainer *par);
 
     void Draw() const;
-    void Update();
+    void Update(const GameTimer &gt);
     void AddValue(float a);
 
     std::vector<float> data;

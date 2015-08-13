@@ -27,8 +27,8 @@ void Panel::Draw() const
     WContainer::Draw();
 }
 
-void Panel::Update()
+void Panel::Update(const GameTimer &gt)
 {
-    WContainer::Update();
+    WContainer::Update(gt);
 }
 

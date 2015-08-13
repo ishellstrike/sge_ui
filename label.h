@@ -16,7 +16,7 @@ public:
     void append(const std::string &__s);
 
     void Draw() const;
-    void Update();
+    void Update(const GameTimer &gt);
 private:
     std::string m_text;
     SpriteBatch::ALIGN m_align = SpriteBatch::ALIGN_LEFT;

@@ -20,24 +20,18 @@ void Button::Draw() const
     auto pos = globalPos();
 
     bool pressed = false;
-    if(aimed && Mouse::IsLeftDown())
+    if(aimed && Mouse::isLeftDown())
         pressed = true;
 
-    glm::vec4 border_up = pressed ? WinS::color.border_down : WinS::color.border_up;
-    glm::vec4 border_down = pressed ? WinS::color.border_up : WinS::color.border_down;
-
-    sb.drawLine(pos, glm::vec2(pos.x, pos.y + size.y), 2, border_up);
-    sb.drawLine(pos, glm::vec2(pos.x + size.x, pos.y), 2, border_up);
-    sb.drawLine(glm::vec2(pos.x, pos.y + size.y), pos + size, 2, border_down);
-    sb.drawLine(glm::vec2(pos.x + size.x, pos.y), pos + size, 2, border_down);
+    DRAW_BOX(sb, pos, size, pressed);
 
     WinS::sb->drawText(text, pos, size, WinS::f, aimed ? WinS::color.hovered_text : WinS::color.text, SpriteBatch::ALIGN_CENTER);
 
     WComponent::Draw();
 }
 
-void Button::Update()
+void Button::Update(const GameTimer &gt)
 {
-    WComponent::Update();
+    WComponent::Update(gt);
 }
 

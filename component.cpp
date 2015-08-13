@@ -21,7 +21,7 @@ void WComponent::Draw() const
 
 }
 
-void WComponent::Update()
+void WComponent::Update(const GameTimer &gt)
 {
 
 }
@@ -88,14 +88,14 @@ void WContainer::Draw() const
     WComponent::Draw();
 }
 
-void WContainer::Update()
+void WContainer::Update(const GameTimer &gt)
 {
     mouse_hook = false;
     for(auto &i : Items)
     {
         if(i->hidden) continue;
 
-        i->Update();
+        i->Update(gt);
 
         if(!mouse_hook && inLimsVec2(Mouse::getCursorPos(), i->globalPos(), i->globalPos() + i->size))
         {
@@ -111,19 +111,30 @@ void WContainer::Update()
                 mouse_hook = true;
             }
 
-            if(Mouse::isWheelUp() && i->onWheelUp)
+            if(Mouse::isLeftDown() && i->onLeftDown)
             {
-                i->onWheelUp();
+                i->onLeftDown();
                 mouse_hook = true;
             }
-            if(Mouse::isWheelDown() && i->onWheelDown)
+            if(Mouse::isRightDown() && i->onRightDown)
             {
-                i->onWheelDown();
+                i->onRightDown();
+                mouse_hook = true;
+            }
+
+            if(Mouse::isRightUp() && i->onRightUp)
+            {
+                i->onRightUp();
+                mouse_hook = true;
+            }
+            if(Mouse::isLeftUp() && i->onLeftUp)
+            {
+                i->onLeftUp();
                 mouse_hook = true;
             }
         }
         else
             i->aimed = false;
     }
-    WComponent::Update();
+    WComponent::Update(gt);
 }

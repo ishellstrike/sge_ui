@@ -11,7 +11,7 @@ public:
     ~Button();
 
     void Draw() const;
-    void Update();
+    void Update(const GameTimer &gt);
     std::string text;
 };
 

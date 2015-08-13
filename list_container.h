@@ -11,7 +11,7 @@ public:
     ~ListContainer();
 
     void Draw() const;
-    void Update();
+    void Update(const GameTimer &gt);
 
     int top = 0, bot = 0;
 

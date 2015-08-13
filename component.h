@@ -7,6 +7,7 @@
 #include "wcontainer.h"
 #include <functional>
 #include "../colorextender.h"
+#include "gametimer.h"
 
 class WContainer;
 class WComponent {
@@ -25,15 +26,17 @@ public:
     WComponent(WContainer *par = nullptr);
     virtual ~WComponent();
     virtual void Draw() const = 0;
-    virtual void Update() = 0;
+    virtual void Update(const GameTimer &gt) = 0;
     glm::vec2 globalPos() const;
     WContainer *parent;
 
-    glm::vec2 pos;
-    glm::vec2 size;
+    glm::vec2 pos = glm::vec2(0);
+    glm::vec2 size = glm::vec2(100);
 
     ANCHOR anchor = ANCHOR_TOP_LEFT;
     std::function<void()> onRightPress, onLeftPress;
+    std::function<void()> onRightDown, onLeftDown;
+    std::function<void()> onRightUp, onLeftUp;
     std::function<void()> onWheelUp, onWheelDown;
     bool hidden = false;
     bool aimed = false;
@@ -42,12 +45,13 @@ public:
 
 class WContainer : public WComponent {
     friend class WComponent;
+    friend class WinS;
 public:
     WContainer(WContainer *par = nullptr);
     virtual ~WContainer();
 
     virtual void Draw() const;
-    virtual void Update();
+    virtual void Update(const GameTimer &gt);
 
 protected:
     std::vector<std::unique_ptr<WComponent>> Items;

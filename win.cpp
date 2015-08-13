@@ -46,7 +46,7 @@ void Win::Draw() const
     WContainer::Draw();
 }
 
-void Win::Update()
+void Win::Update(const GameTimer &gt)
 {
     glm::vec2 wpos = globalPos();
     if(!WinS::MouseHooked && inLimsVec2(Mouse::getCursorLastPos(), wpos, wpos + glm::vec2(size.x - 20, header)))
@@ -57,7 +57,7 @@ void Win::Update()
             dragged = true;
         }
     }
-    if(Mouse::IsLeftDown() && dragged)
+    if(Mouse::isLeftDown() && dragged)
         pos = glm::vec2(Mouse::getCursorPos().x, Mouse::getCursorLastPos().y) - drag_point;
     else
         dragged = false;
@@ -71,7 +71,7 @@ void Win::Update()
             resizing = true;
         }
     }
-    if(Mouse::IsLeftDown() && resizing)
+    if(Mouse::isLeftDown() && resizing)
     {
         size = glm::vec2(Mouse::getCursorPos().x, Mouse::getCursorLastPos().y) - resize_point;
         if(size.y < 40) {
@@ -89,14 +89,14 @@ void Win::Update()
 
     if(!WinS::MouseHooked && inLimsVec2(Mouse::getCursorLastPos(), wpos, wpos + size) && !hidden)
     {
-        if(Mouse::IsLeftDown())
+        if(Mouse::isLeftDown())
         {
             WinS::ws->ToTop(this);
         }
         WinS::MouseHooked = true;
     }
 
-    WContainer::Update();
+    WContainer::Update(gt);
 }
 
 void Win::MoveUnderCur()

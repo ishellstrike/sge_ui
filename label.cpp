@@ -44,7 +44,7 @@ void Label::Draw() const
     WComponent::Draw();
 }
 
-void Label::Update()
+void Label::Update(const GameTimer &gt)
 {
-    WComponent::Update();
+    WComponent::Update(gt);
 }

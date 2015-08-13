@@ -11,7 +11,7 @@ public:
     float top = 0.1, bot = 0.9;
 
     void Draw() const;
-    void Update();
+    void Update(const GameTimer &gt);
 };
 
 #endif // VERTICAL_BAR_H

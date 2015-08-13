@@ -30,8 +30,8 @@ void VerticalBar::Draw() const
     WComponent::Draw();
 }
 
-void VerticalBar::Update()
+void VerticalBar::Update(const GameTimer &gt)
 {
-    WComponent::Update();
+    WComponent::Update(gt);
 }
 

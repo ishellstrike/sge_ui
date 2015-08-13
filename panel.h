@@ -9,7 +9,7 @@ public:
     ~Panel();
 
     void Draw() const;
-    void Update();
+    void Update(const GameTimer &gt);
 };
 
 #endif // PANEL_H

@@ -6,6 +6,7 @@
 #include <memory>
 #include <algorithm>
 #include "../prefecences.h"
+#include "helper.h"
 
 WinS::WinS() :
     WContainer()
@@ -61,7 +62,20 @@ void WinS::CloseTop()
     return;
 }
 
-void WinS::Update() {
+std::weak_ptr<WComponent> WinS::getInpos(glm::vec2 p)
+{
+    for (auto &iter = Items.begin(); iter != Items.end(); ++iter)
+    {
+        Win *w = static_cast<Win*>(iter->get());
+        for (auto &iter2 = w->Items.begin(); iter2 != w->Items.end(); ++iter2)
+        {
+            if (inLimsVec2(p, (*iter2)->globalPos(), (*iter2)->globalPos() + (*iter2)->size))
+                return iter2;
+        }
+    }
+}
+
+void WinS::Update(const GameTimer &gt) {
     MouseHooked = false;
 
     pos = {0,0};
@@ -69,13 +83,13 @@ void WinS::Update() {
 
     KeyboardHooked = false;
     if(Items.size() > 0)
-        Items[Items.size() - 1]->Update();
+        Items[Items.size() - 1]->Update(gt);
     KeyboardHooked = true; //only top win can read keyboard
 
     for (auto i = Items.rbegin(); i != Items.rend(); ++i)
     {
         if(!(*i)->hidden)
-            (*i)->Update();
+            (*i)->Update(gt);
     }
 }
 

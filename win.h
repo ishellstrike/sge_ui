@@ -13,7 +13,7 @@ public:
     Win(WContainer *par);
     virtual ~Win();
     virtual void Draw() const;
-    void Update();
+    void Update(const GameTimer &gt);
     glm::vec2 drag_point;
     bool dragged = false;
     bool resizing = false;
