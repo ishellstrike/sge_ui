@@ -4,8 +4,12 @@
 DragNumbox::DragNumbox(WContainer *par) :
     WComponent(par)
 {
-    onLeftDown = [&](){in_progress = true;};
-    onLeftUp = [&](){in_progress = false;};
+    onLeftDown = [&](){
+        in_progress = true;
+    };
+    onLeftUp = [&](){
+        in_progress = false;
+    };
     pos = {40,150};
 }
 
@@ -25,7 +29,6 @@ void DragNumbox::Draw() const
     {
         sb.resetScissor();
         sb.drawLine(pos, pos - glm::vec2{0,1}*dif, 2, col);
-        sb.reduceScissor(pos, size);
     }
 
     WComponent::Draw();
@@ -46,8 +49,13 @@ void DragNumbox::Update(const GameTimer &gt)
             value += growth * dif;
             break;
         case EXPONENTIAL:
-            value *= dif < 0 ? 1.0 / glm::pow(growth, dif) : glm::pow(growth, dif);
+            value *= dif < 0.f ? 1.0f / glm::pow(growth, dif) : glm::pow(growth, dif);
             break;
+        }
+
+        if(lim_type == LIMITED)
+        {
+            value = glm::clamp(value, min, max);
         }
     }
 

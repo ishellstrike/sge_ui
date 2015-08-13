@@ -34,6 +34,7 @@ public:
     glm::vec2 size = glm::vec2(100);
 
     ANCHOR anchor = ANCHOR_TOP_LEFT;
+    std::string type = "error";
     std::function<void()> onRightPress, onLeftPress;
     std::function<void()> onRightDown, onLeftDown;
     std::function<void()> onRightUp, onLeftUp;
@@ -54,7 +55,7 @@ public:
     virtual void Update(const GameTimer &gt);
 
 protected:
-    std::vector<std::unique_ptr<WComponent>> Items;
+    std::vector<std::shared_ptr<WComponent>> Items;
     bool mouse_hook = false;
 };
 #endif // WComponent_h__

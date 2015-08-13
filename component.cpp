@@ -8,7 +8,7 @@ WComponent::WComponent(WContainer *par)
 {
     parent = par;
     if(parent)
-        parent->Items.push_back(std::unique_ptr<WComponent>(this));
+        parent->Items.push_back(std::shared_ptr<WComponent>(this));
 }
 
 WComponent::~WComponent()
@@ -100,12 +100,12 @@ void WContainer::Update(const GameTimer &gt)
         if(!mouse_hook && inLimsVec2(Mouse::getCursorPos(), i->globalPos(), i->globalPos() + i->size))
         {
             i->aimed = true;
-            if(Mouse::isLeftPressed() && i->onLeftPress)
+            if(Mouse::isLeftJustPressed() && i->onLeftPress)
             {
                 i->onLeftPress();
                 mouse_hook = true;
             }
-            if(Mouse::isRightPressed() && i->onRightPress)
+            if(Mouse::isRightJustPressed() && i->onRightPress)
             {
                 i->onRightPress();
                 mouse_hook = true;
@@ -121,20 +121,14 @@ void WContainer::Update(const GameTimer &gt)
                 i->onRightDown();
                 mouse_hook = true;
             }
-
-            if(Mouse::isRightUp() && i->onRightUp)
-            {
-                i->onRightUp();
-                mouse_hook = true;
-            }
-            if(Mouse::isLeftUp() && i->onLeftUp)
-            {
-                i->onLeftUp();
-                mouse_hook = true;
-            }
         }
         else
             i->aimed = false;
+
+        if(Mouse::isRightUp() && i->onRightUp)
+            i->onRightUp();
+        if(Mouse::isLeftUp() && i->onLeftUp)
+            i->onLeftUp();
     }
     WComponent::Update(gt);
 }

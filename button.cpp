@@ -19,10 +19,7 @@ void Button::Draw() const
     SpriteBatch &sb = *WinS::sb;
     auto pos = globalPos();
 
-    bool pressed = false;
-    if(aimed && Mouse::isLeftDown())
-        pressed = true;
-
+    bool pressed = Mouse::isLeftDown() && aimed;
     DRAW_BOX(sb, pos, size, pressed);
 
     WinS::sb->drawText(text, pos, size, WinS::f, aimed ? WinS::color.hovered_text : WinS::color.text, SpriteBatch::ALIGN_CENTER);

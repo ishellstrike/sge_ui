@@ -7,7 +7,7 @@ class Connector : public WComponent
 public:
     Connector(WContainer *par);
 
-    std::weak_ptr<WContainer> linked;
+    std::weak_ptr<WComponent> linked;
     glm::vec4 color = Color::White;
     void Draw() const;
     void Update(const GameTimer &gt);

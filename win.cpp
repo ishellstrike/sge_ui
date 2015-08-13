@@ -15,7 +15,9 @@ Win::Win(WContainer *par) :
     closeb->size = {20,20};
     closeb->anchor = ANCHOR_TOP_RIGHT;
     closeb->pos = {-20, -20};
+
     closeb->onLeftPress = [&](){hidden = true;};
+
     header = 20;
 
     size = {200,200};
@@ -51,7 +53,7 @@ void Win::Update(const GameTimer &gt)
     glm::vec2 wpos = globalPos();
     if(!WinS::MouseHooked && inLimsVec2(Mouse::getCursorLastPos(), wpos, wpos + glm::vec2(size.x - 20, header)))
     {
-        if(Mouse::isLeftPressed())
+        if(Mouse::isLeftJustPressed())
         {
             drag_point = Mouse::getCursorLastPos() - pos;
             dragged = true;
@@ -65,12 +67,13 @@ void Win::Update(const GameTimer &gt)
     if(!WinS::MouseHooked && inLimsVec2(Mouse::getCursorLastPos(), wpos + glm::vec2(size.x - 10, size.y - 10), wpos + size))
     {
         Mouse::state = Mouse::STATE_RESIZE;
-        if(Mouse::isLeftPressed())
+        if(Mouse::isLeftJustPressed())
         {
             resize_point = Mouse::getCursorLastPos() - size;
             resizing = true;
         }
     }
+
     if(Mouse::isLeftDown() && resizing)
     {
         size = glm::vec2(Mouse::getCursorPos().x, Mouse::getCursorLastPos().y) - resize_point;
@@ -89,7 +92,7 @@ void Win::Update(const GameTimer &gt)
 
     if(!WinS::MouseHooked && inLimsVec2(Mouse::getCursorLastPos(), wpos, wpos + size) && !hidden)
     {
-        if(Mouse::isLeftDown())
+        if(Mouse::isLeftJustPressed())
         {
             WinS::ws->ToTop(this);
         }

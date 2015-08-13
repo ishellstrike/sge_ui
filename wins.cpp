@@ -64,15 +64,16 @@ void WinS::CloseTop()
 
 std::weak_ptr<WComponent> WinS::getInpos(glm::vec2 p)
 {
-    for (auto &iter = Items.begin(); iter != Items.end(); ++iter)
+    for (auto &iter = Items.rbegin(); iter != Items.rend(); ++iter)
     {
         Win *w = static_cast<Win*>(iter->get());
         for (auto &iter2 = w->Items.begin(); iter2 != w->Items.end(); ++iter2)
         {
             if (inLimsVec2(p, (*iter2)->globalPos(), (*iter2)->globalPos() + (*iter2)->size))
-                return iter2;
+                return (*iter2);
         }
     }
+    return std::weak_ptr<WComponent>();
 }
 
 void WinS::Update(const GameTimer &gt) {
