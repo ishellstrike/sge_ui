@@ -32,9 +32,10 @@ public:
 
     glm::vec2 pos = glm::vec2(0);
     glm::vec2 size = glm::vec2(100);
+    std::weak_ptr<WComponent> weak_this;
 
     ANCHOR anchor = ANCHOR_TOP_LEFT;
-    std::string type = "error";
+    std::string wcomponent_type = "error";
     std::function<void()> onRightPress, onLeftPress;
     std::function<void()> onRightDown, onLeftDown;
     std::function<void()> onRightUp, onLeftUp;

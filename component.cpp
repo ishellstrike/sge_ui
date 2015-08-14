@@ -8,7 +8,10 @@ WComponent::WComponent(WContainer *par)
 {
     parent = par;
     if(parent)
+    {
         parent->Items.push_back(std::shared_ptr<WComponent>(this));
+        weak_this = parent->Items.back();
+    }
 }
 
 WComponent::~WComponent()

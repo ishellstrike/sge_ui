@@ -67,7 +67,7 @@ void Win::Update(const GameTimer &gt)
     if(!WinS::MouseHooked && inLimsVec2(Mouse::getCursorLastPos(), wpos + glm::vec2(size.x - 10, size.y - 10), wpos + size))
     {
         Mouse::state = Mouse::STATE_RESIZE;
-        if(Mouse::isLeftJustPressed())
+        if(Mouse::isLeftJustPressed() && resizable)
         {
             resize_point = Mouse::getCursorLastPos() - size;
             resizing = true;
