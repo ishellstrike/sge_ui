@@ -7,6 +7,7 @@ Label::Label(WContainer *par) :
 {
     size = {20,20};
     text("empty");
+    wcomponent_type = "label";
 }
 
 Label::~Label()
@@ -39,7 +40,10 @@ void Label::append(const std::string &__s)
 void Label::Draw() const
 {
     glm::vec2 p = globalPos();
-    WinS::sb->drawText(m_text, p, size, WinS::f, WinS::color.text, m_align);
+    if(onLeftPress && aimed)
+        WinS::sb->drawText(m_text, p, size, WinS::f, WinS::color.hovered_text, m_align);
+    else
+        WinS::sb->drawText(m_text, p, size, WinS::f, WinS::color.text, m_align);
 
     WComponent::Draw();
 }

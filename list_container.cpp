@@ -11,13 +11,14 @@ void ListContainer::nolmalze_top_bot()
 ListContainer::ListContainer(WContainer *par) :
     WContainer(par)
 {
-    for(int i=0;i<10;i++)
-    {
-        auto l = new Label(this);
-        l->text("test"+std::to_string(i));
-    }
+    wcomponent_type = "listcontainer";
+    //for(int i=0;i<10;i++)
+    //{
+    //    auto l = new Label(this);
+    //    l->text("test"+std::to_string(i));
+    //}
 
-    size = {150,50};
+    size = {150,100};
 
     up = new Button(this);
     up->text = "^";
@@ -70,17 +71,17 @@ void ListContainer::Draw() const
     SpriteBatch &sb = *WinS::sb;
     auto pos = globalPos();
 
-    for(auto i = Items.begin(); i != Items.end() - stored_items_offset; ++i)
+    for(auto i = Items.begin() + stored_items_offset; i != Items.end(); ++i)
     {
         (*i)->hidden = true;
     }
     int j = 0;
-    bar->top = top/(float)(Items.size() - stored_items_offset);
-    for(auto i = Items.begin() + top; i != Items.end() - stored_items_offset; ++i, ++j)
+    bar->top = (top + stored_items_offset)/(float)(Items.size());
+    for(auto i = Items.begin() + stored_items_offset + top; i != Items.end(); ++i, ++j)
     {
         if((j)*20 >= size.y)
         {
-            bar->bot = (top+j+1)/(float)(Items.size() - stored_items_offset);
+            bar->bot = (top + stored_items_offset+j+1)/(float)(Items.size());
             break;
         }
         (*i)->hidden = false;

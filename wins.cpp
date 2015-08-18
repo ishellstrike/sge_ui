@@ -87,10 +87,10 @@ void WinS::Update(const GameTimer &gt) {
         Items[Items.size() - 1]->Update(gt);
     KeyboardHooked = true; //only top win can read keyboard
 
-    for (auto i = Items.rbegin(); i != Items.rend(); ++i)
+    for(int i = Items.size() - 1; i >= 0; --i)
     {
-        if(!(*i)->hidden)
-            (*i)->Update(gt);
+        if(!Items[i]->hidden)
+            Items[i]->Update(gt);
     }
 }
 
