@@ -1,3 +1,10 @@
+/*******************************************************************************
+        Copyright (C) 2015 Samsonov Andrey
+
+        This software is distributed freely under the terms of the MIT LICENSE.
+        See "LICENSE.txt"
+*******************************************************************************/
+
 #ifndef DRAGNUMBOX_H
 #define DRAGNUMBOX_H
 #include "wins.h"
@@ -17,8 +24,8 @@ public:
 
     DragNumbox(WContainer *par);
 
-    void Draw() const;
-    void Update(const GameTimer &gt);
+    void Draw() const override;
+    void Update(const GameTimer &gt) override;
 
     float value = 1.0f;
     float growth = 0.1f;

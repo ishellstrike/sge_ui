@@ -1,3 +1,10 @@
+/*******************************************************************************
+        Copyright (C) 2015 Samsonov Andrey
+
+        This software is distributed freely under the terms of the MIT LICENSE.
+        See "LICENSE.txt"
+*******************************************************************************/
+
 #ifndef LABEL_H
 #define LABEL_H
 #include "component.h"
@@ -15,8 +22,8 @@ public:
     const std::string text() const;
     void append(const std::string &__s);
 
-    void Draw() const;
-    void Update(const GameTimer &gt);
+    void Draw() const override;
+    void Update(const GameTimer &gt) override;
 private:
     std::string m_text;
     SpriteBatch::ALIGN m_align = SpriteBatch::ALIGN_LEFT;

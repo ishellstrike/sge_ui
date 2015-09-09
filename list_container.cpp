@@ -1,3 +1,10 @@
+/*******************************************************************************
+        Copyright (C) 2015 Samsonov Andrey
+
+        This software is distributed freely under the terms of the MIT LICENSE.
+        See "LICENSE.txt"
+*******************************************************************************/
+
 #include "list_container.h"
 #include "wins.h"
 #include "../colorextender.h"
@@ -6,6 +13,9 @@
 void ListContainer::nolmalze_top_bot()
 {
     top = glm::max(0, glm::min(top, (int)Items.size() - stored_items_offset));
+    if(top < bot){
+        std::swap(top, bot);
+    }
 }
 
 ListContainer::ListContainer(WContainer *par) :
@@ -75,13 +85,14 @@ void ListContainer::Draw() const
     {
         (*i)->hidden = true;
     }
+
     int j = 0;
-    bar->top = (top + stored_items_offset)/(float)(Items.size());
+    bar->top = (top)/(float)(Items.size() - stored_items_offset);
     for(auto i = Items.begin() + stored_items_offset + top; i != Items.end(); ++i, ++j)
     {
         if((j)*20 >= size.y)
         {
-            bar->bot = (top + stored_items_offset+j+1)/(float)(Items.size());
+            bar->bot = (top+j)/(float)(Items.size() - stored_items_offset);
             break;
         }
         (*i)->hidden = false;

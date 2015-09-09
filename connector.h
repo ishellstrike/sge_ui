@@ -1,3 +1,10 @@
+/*******************************************************************************
+        Copyright (C) 2015 Samsonov Andrey
+
+        This software is distributed freely under the terms of the MIT LICENSE.
+        See "LICENSE.txt"
+*******************************************************************************/
+
 #ifndef CONNECTOR_H
 #define CONNECTOR_H
 #include "wins.h"
@@ -27,7 +34,7 @@ public:
     std::string name;
     bool passive = true;
 
-    void Draw() const
+    void Draw() const override
     {
         SpriteBatch &sb = *WinS::ws->sb;
         auto pos = globalPos();
@@ -52,7 +59,7 @@ public:
         WComponent::Draw();
     }
 
-    void Update(const GameTimer &gt)
+    void Update(const GameTimer &gt) override
     {
         if(Mouse::isLeftDown() && aimed)
             in_progress = true;

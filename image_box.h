@@ -1,3 +1,10 @@
+/*******************************************************************************
+        Copyright (C) 2015 Samsonov Andrey
+
+        This software is distributed freely under the terms of the MIT LICENSE.
+        See "LICENSE.txt"
+*******************************************************************************/
+
 #ifndef IMAGE_BOX_H
 #define IMAGE_BOX_H
 #include "wins.h"
@@ -9,8 +16,8 @@ public:
 
     std::shared_ptr<Texture> tex;
     glm::vec4 color = Color::White;
-    void Draw() const;
-    void Update(const GameTimer &gt);
+    void Draw() const override;
+    void Update(const GameTimer &gt) override;
 };
 
 #endif // IMAGE_BOX_H

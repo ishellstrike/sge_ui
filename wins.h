@@ -1,3 +1,10 @@
+/*******************************************************************************
+        Copyright (C) 2015 Samsonov Andrey
+
+        This software is distributed freely under the terms of the MIT LICENSE.
+        See "LICENSE.txt"
+*******************************************************************************/
+
 #ifndef WinS_h__
 #define WinS_h__
 #include "../spritebatch.h"
@@ -32,7 +39,7 @@ public:
     static SpriteBatch *sb;
     static Font *f;
     static WinS *ws;
-    void Draw() const;
+    void Draw() const override;
 };
 
 #endif // WinS_h__

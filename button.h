@@ -1,3 +1,10 @@
+/*******************************************************************************
+        Copyright (C) 2015 Samsonov Andrey
+
+        This software is distributed freely under the terms of the MIT LICENSE.
+        See "LICENSE.txt"
+*******************************************************************************/
+
 #ifndef BUTTON_H
 #define BUTTON_H
 #include "component.h"
@@ -10,8 +17,8 @@ public:
     Button(WContainer *par);
     ~Button();
 
-    void Draw() const;
-    void Update(const GameTimer &gt);
+    void Draw() const override;
+    void Update(const GameTimer &gt) override;
     std::string text;
 };
 

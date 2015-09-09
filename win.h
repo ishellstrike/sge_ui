@@ -1,3 +1,10 @@
+/*******************************************************************************
+        Copyright (C) 2015 Samsonov Andrey
+
+        This software is distributed freely under the terms of the MIT LICENSE.
+        See "LICENSE.txt"
+*******************************************************************************/
+
 #ifndef Win_h__
 #define Win_h__
 #include <glm/glm.hpp>
@@ -12,8 +19,8 @@ class Win : public WContainer
 public:
     Win(WContainer *par);
     virtual ~Win();
-    virtual void Draw() const;
-    void Update(const GameTimer &gt);
+    void Draw() const override;
+    void Update(const GameTimer &gt) override;
     glm::vec2 drag_point;
     bool dragged = false;
     bool resizing = false;
