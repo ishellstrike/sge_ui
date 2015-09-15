@@ -9,6 +9,7 @@
 #define GRAPH_H
 #include "win.h"
 #include <vector>
+#include <boost/circular_buffer.hpp>
 
 class Graph : public WComponent
 {
@@ -19,10 +20,8 @@ public:
     void Update(const GameTimer &gt) override;
     void AddValue(float a);
 
-    std::vector<float> data;
-    int dpos = 0;
+    boost::circular_buffer<float> data;
     float min = 0, max = 100;
-    const int dsize = 100;
 };
 
 #endif // GRAPH_H

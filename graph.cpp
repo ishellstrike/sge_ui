@@ -5,6 +5,7 @@
         See "LICENSE.txt"
 *******************************************************************************/
 
+#include "helper.h"
 #include "graph.h"
 #include "../spritebatch.h"
 #include "wins.h"
@@ -14,7 +15,7 @@
 Graph::Graph(WContainer *par) :
     WComponent(par)
 {
-    data.resize(dsize);
+    data.resize(100);
     size = {100,100};
 }
 
@@ -27,15 +28,17 @@ void Graph::Draw() const
     float ysize = size.y * 0.8f;
     auto max = *std::max_element(std::begin(data), std::end(data));
     auto min = *std::min_element(std::begin(data), std::end(data));
-    for(int b = dpos + 2; b < dsize + dpos; b++, x+= 1)
+    for(auto b = data.begin(); b != data.end(); ++b)
     {
-        auto a = b % dsize;
-        if(a == 0) continue;
-        auto preval = (1-(((data[a-1])-min) / (max-min)))*ysize;
-        auto val = (1-(((data[a])-min) / (max-min)))*ysize;
+        auto a = b+1;
+        if(a == data.end()) a = data.begin();
 
-        sb.drawLine(glm::vec2((size.x)/static_cast<float>(dsize) * (x - 1), preval) + pos,
-                    glm::vec2(size.x/static_cast<float>(dsize) * x, val) + pos, 1, WinS::color.border_up);
+        auto preval = (1-(((*b)-min) / (max-min)))*ysize;
+        auto val = (1-(((*a)-min) / (max-min)))*ysize;
+
+        sb.drawLine(glm::vec2((size.x)/static_cast<float>(data.size()) * (x - 1), preval) + pos,
+                    glm::vec2(size.x/static_cast<float>(data.size()) * x, val) + pos, 1, WinS::color.border_up);
+        x++;
     }
 
     sb.drawLine(pos, glm::vec2(pos.x, pos.y + size.y), 2, WinS::color.border_up);
@@ -43,8 +46,8 @@ void Graph::Draw() const
     sb.drawLine(glm::vec2(pos.x, pos.y + size.y), pos + size, 2, WinS::color.border_down);
     sb.drawLine(glm::vec2(pos.x + size.x, pos.y), pos + size, 2, WinS::color.border_down);
 
-    sb.drawText(std::to_string(max), {pos.x, pos.y + 2}, WinS::f, WinS::color.text);
-    sb.drawText(std::to_string(min), {pos.x, pos.y + size.y - 15}, WinS::f, WinS::color.text);
+    sb.drawText(string_format("%g", max), {pos.x, pos.y + 2}, WinS::f, WinS::color.text);
+    sb.drawText(string_format("%g", min), {pos.x, pos.y + size.y - 15}, WinS::f, WinS::color.text);
 
     WComponent::Draw();
 }
@@ -56,9 +59,6 @@ void Graph::Update(const GameTimer &gt)
 
 void Graph::AddValue(float a)
 {
-    data[dpos] = a;
-    dpos++;
-    if(dpos >= dsize)
-        dpos = 0;
+    data.push_back(a);
 }
 
