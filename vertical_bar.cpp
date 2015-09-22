@@ -32,13 +32,13 @@ void VerticalBar::Draw() const
     sb.drawLine(glm::vec2(pos.x + size.x, pos.y), pos + size, 2, aimed ? WinS::color.hovered_text : WinS::color.text);
 
     float nsize = size.y - 4;
-    sb.drawRect(pos + glm::vec2(3) + glm::vec2(0, nsize*top), size - glm::vec2(4) - glm::vec2(0, nsize*top + nsize*(1-bot)), WinS::color.border_up);
+    sb.drawRect(pos + glm::vec2(1, 3) + glm::vec2(0, nsize*top), size - glm::vec2(4) - glm::vec2(0, nsize*top + nsize*(1-bot)), WinS::color.border_up);
 
     WComponent::Draw();
 }
 
-void VerticalBar::Update(const GameTimer &gt)
+void VerticalBar::Update(const GameTimer &gt, const MouseState &ms)
 {
-    WComponent::Update(gt);
+    WComponent::Update(gt, ms);
 }
 

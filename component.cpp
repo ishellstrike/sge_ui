@@ -31,7 +31,7 @@ void WComponent::Draw() const
 
 }
 
-void WComponent::Update(const GameTimer &gt)
+void WComponent::Update(const GameTimer &, const MouseState &)
 {
 
 }
@@ -98,47 +98,42 @@ void WContainer::Draw() const
     WComponent::Draw();
 }
 
-void WContainer::Update(const GameTimer &gt)
+void WContainer::Update(const GameTimer &gt, const MouseState &ms)
 {
     mouse_hook = false;
     for(auto &i : Items)
     {
         if(i->hidden) continue;
 
-        i->Update(gt);
+        i->Update(gt, ms);
 
         if(!mouse_hook && inLimsVec2(Mouse::getCursorPos(), i->globalPos(), i->globalPos() + i->size))
         {
             i->aimed = true;
-            if(Mouse::isLeftJustPressed() && i->onLeftPress)
-            {
-                i->onLeftPress();
-                mouse_hook = true;
-            }
-            if(Mouse::isRightJustPressed() && i->onRightPress)
-            {
-                i->onRightPress();
-                mouse_hook = true;
-            }
 
-            if(Mouse::isLeftDown() && i->onLeftDown)
-            {
-                i->onLeftDown();
-                mouse_hook = true;
-            }
-            if(Mouse::isRightDown() && i->onRightDown)
-            {
-                i->onRightDown();
-                mouse_hook = true;
-            }
+            if(ms.once_l == ST_ON)
+                i->onMouseClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_LEFT});
+            if(ms.double_l == ST_ON)
+                i->onMouseDoubleClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_LEFT});
+            if(ms.triple_l == ST_ON)
+                i->onMouseTripleClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_LEFT});
+
+            if(ms.once_r == ST_ON)
+                i->onMouseClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_RIGHT});
+            if(ms.double_r == ST_ON)
+                i->onMouseDoubleClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_RIGHT});
+            if(ms.triple_r == ST_ON)
+                i->onMouseTripleClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_RIGHT});
+
+            if(ms.once_m == ST_ON)
+                i->onMouseClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_MIDDLE});
+            if(ms.double_m == ST_ON)
+                i->onMouseDoubleClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_MIDDLE});
+            if(ms.triple_m == ST_ON)
+                i->onMouseTripleClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_MIDDLE});
         }
         else
             i->aimed = false;
-
-        if(Mouse::isRightUp() && i->onRightUp)
-            i->onRightUp();
-        if(Mouse::isLeftUp() && i->onLeftUp)
-            i->onLeftUp();
     }
-    WComponent::Update(gt);
+    WComponent::Update(gt, ms);
 }

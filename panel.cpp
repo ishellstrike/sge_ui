@@ -34,8 +34,8 @@ void Panel::Draw() const
     WContainer::Draw();
 }
 
-void Panel::Update(const GameTimer &gt)
+void Panel::Update(const GameTimer &gt, const MouseState &ms)
 {
-    WContainer::Update(gt);
+    WContainer::Update(gt, ms);
 }
 

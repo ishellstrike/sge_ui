@@ -25,8 +25,8 @@ void ImageBox::Draw() const
     WComponent::Draw();
 }
 
-void ImageBox::Update(const GameTimer &gt)
+void ImageBox::Update(const GameTimer &gt, const MouseState &ms)
 {
-    WComponent::Update(gt);
+    WComponent::Update(gt, ms);
 }
 

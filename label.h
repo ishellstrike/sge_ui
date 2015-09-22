@@ -23,7 +23,7 @@ public:
     void append(const std::string &__s);
 
     void Draw() const override;
-    void Update(const GameTimer &gt) override;
+    void Update(const GameTimer &gt, const MouseState &ms) override;
 private:
     std::string m_text;
     SpriteBatch::ALIGN m_align = SpriteBatch::ALIGN_LEFT;

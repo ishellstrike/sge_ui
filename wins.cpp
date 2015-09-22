@@ -4,7 +4,6 @@
         This software is distributed freely under the terms of the MIT LICENSE.
         See "LICENSE.txt"
 *******************************************************************************/
-
 #include "wins.h"
 #include <vector>
 #include <list>
@@ -83,23 +82,73 @@ std::weak_ptr<WComponent> WinS::getInpos(glm::vec2 p)
     return std::weak_ptr<WComponent>();
 }
 
-void WinS::Update(const GameTimer &gt) {
+#define CLICKS_UPDATE(once_l, double_l, triple_l, click)                                                               \
+if(click)                                                                                                              \
+{                                                                                                                      \
+    if(once_l && gt.current - last_l < Prefecences::Instance()->double_c && double_l == ST_OFF && triple_l == ST_OFF)  \
+    {                                                                                                                  \
+        double_l = ST_ON;                                                                                              \
+        triple_l = ST_OFF;                                                                                             \
+        last_l = gt.current;                                                                                           \
+    }                                                                                                                  \
+    else                                                                                                               \
+    if(gt.current - last_l < Prefecences::Instance()->double_c && double_l != ST_OFF && triple_l == ST_OFF)            \
+    {                                                                                                                  \
+        double_l = ST_OFF;                                                                                             \
+        triple_l = ST_ON;                                                                                              \
+        last_l = gt.current;                                                                                           \
+    }                                                                                                                  \
+    else                                                                                                               \
+    {                                                                                                                  \
+        double_l = triple_l = ST_OFF;                                                                                  \
+        last_l = gt.current;                                                                                           \
+        once_l = ST_ON;                                                                                                \
+    }                                                                                                                  \
+}                                                                                                                      \
+                                                                                                                       \
+if(gt.current - last_l > Prefecences::Instance()->double_c)                                                            \
+{                                                                                                                      \
+    double_l = triple_l = once_l = ST_OFF;                                                                             \
+}
+
+#define CLICKS_PAST(once_l, double_l, triple_l) \
+    if(once_l == ST_ON)                         \
+        once_l = ST_PAST;                       \
+    if(double_l == ST_ON)                       \
+        double_l = ST_PAST;                     \
+    if(triple_l == ST_ON)                       \
+        triple_l = ST_PAST;
+
+void WinS::Update(const GameTimer &gt, const MouseState &ms) {
     MouseHooked = false;
 
     pos = {0,0};
     size = {RESX, RESY};
 
+    static float last_l = 0, last_r = 0;
+
+    CLICKS_UPDATE(mstate.once_l, mstate.double_l, mstate.triple_l, Mouse::isLeftJustPressed());
+    CLICKS_UPDATE(mstate.once_r, mstate.double_r, mstate.triple_r, Mouse::isRightJustPressed());
+    CLICKS_UPDATE(mstate.once_m, mstate.double_m, mstate.triple_m, Mouse::isMiddleJustPressed());
+
     KeyboardHooked = false;
     if(Items.size() > 0)
-        Items[Items.size() - 1]->Update(gt);
+        Items[Items.size() - 1]->Update(gt, mstate);
     KeyboardHooked = true; //only top win can read keyboard
 
     for(int i = Items.size() - 1; i >= 0; --i)
     {
         if(!Items[i]->hidden)
-            Items[i]->Update(gt);
+            Items[i]->Update(gt, mstate);
     }
+
+    CLICKS_PAST(mstate.once_l, mstate.double_l, mstate.triple_l);
+    CLICKS_PAST(mstate.once_r, mstate.double_r, mstate.triple_r);
+    CLICKS_PAST(mstate.once_m, mstate.double_m, mstate.triple_m);
 }
+
+#undef CLICKS_PAST
+#undef CLICKS_UPDATE
 
 bool WinS::KeyboardHooked = false;
 bool WinS::MouseHooked = false;

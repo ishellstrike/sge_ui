@@ -11,12 +11,24 @@
 DragNumbox::DragNumbox(WContainer *par) :
     WComponent(par)
 {
-    onLeftDown = [&](){
-        in_progress = true;
-    };
-    onLeftUp = [&](){
-        in_progress = false;
-    };
+    onMouseDown.connect( [&](const ClickHandler &mh)->bool{
+        if(mh.button == GLFW_MOUSE_BUTTON_LEFT)
+        {
+            in_progress = true;
+            return true;
+        }
+        return false;
+    });
+
+    onMouseUp.connect( [&](const ClickHandler &mh)->bool{
+        if(mh.button == GLFW_MOUSE_BUTTON_LEFT)
+        {
+            in_progress = false;
+            return true;
+        }
+        return false;
+    });
+
     pos = {40,150};
 }
 
@@ -41,7 +53,7 @@ void DragNumbox::Draw() const
     WComponent::Draw();
 }
 
-void DragNumbox::Update(const GameTimer &gt)
+void DragNumbox::Update(const GameTimer &gt, const MouseState &ms)
 {
     auto pos = globalPos();
 
@@ -66,6 +78,6 @@ void DragNumbox::Update(const GameTimer &gt)
         }
     }
 
-    WComponent::Update(gt);
+    WComponent::Update(gt, ms);
 }
 

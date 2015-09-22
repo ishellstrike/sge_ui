@@ -25,7 +25,7 @@ public:
     DragNumbox(WContainer *par);
 
     void Draw() const override;
-    void Update(const GameTimer &gt) override;
+    void Update(const GameTimer &gt, const MouseState &ms) override;
 
     float value = 1.0f;
     float growth = 0.1f;

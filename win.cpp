@@ -23,7 +23,14 @@ Win::Win(WContainer *par) :
     closeb->anchor = ANCHOR_TOP_RIGHT;
     closeb->pos = {-20, -20};
 
-    closeb->onLeftPress = [&](){hidden = true;};
+    closeb->onMouseClick.connect( [&](const ClickHandler &mh)->bool{
+        if(mh.button == GLFW_MOUSE_BUTTON_LEFT)
+        {
+            hidden = true;
+            return true;
+        }
+        return false;
+    });
 
     header = 20;
 
@@ -55,7 +62,7 @@ void Win::Draw() const
     WContainer::Draw();
 }
 
-void Win::Update(const GameTimer &gt)
+void Win::Update(const GameTimer &gt, const MouseState &ms)
 {
     glm::vec2 wpos = globalPos();
     if(!WinS::MouseHooked && inLimsVec2(Mouse::getCursorLastPos(), wpos, wpos + glm::vec2(size.x - 20, header)))
@@ -71,10 +78,10 @@ void Win::Update(const GameTimer &gt)
     else
         dragged = false;
 
-    if(!WinS::MouseHooked && inLimsVec2(Mouse::getCursorLastPos(), wpos + glm::vec2(size.x - 10, size.y - 10), wpos + size))
+    if(!WinS::MouseHooked && inLimsVec2(Mouse::getCursorLastPos(), wpos + glm::vec2(size.x - 10, size.y - 10), wpos + size) && resizable)
     {
         Mouse::state = Mouse::STATE_RESIZE;
-        if(Mouse::isLeftJustPressed() && resizable)
+        if(Mouse::isLeftJustPressed())
         {
             resize_point = Mouse::getCursorLastPos() - size;
             resizing = true;
@@ -90,9 +97,8 @@ void Win::Update(const GameTimer &gt)
         if(size.x < 100) {
             size.x = 100;
         }
-        if(onResize) {
-            onResize();
-        }
+
+        onResize();
     }
     else
         resizing = false;
@@ -106,7 +112,7 @@ void Win::Update(const GameTimer &gt)
         WinS::MouseHooked = true;
     }
 
-    WContainer::Update(gt);
+    WContainer::Update(gt, ms);
 }
 
 void Win::MoveUnderCur()

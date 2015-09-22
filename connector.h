@@ -59,7 +59,7 @@ public:
         WComponent::Draw();
     }
 
-    void Update(const GameTimer &gt) override
+    void Update(const GameTimer &gt, const MouseState &ms) override
     {
         if(Mouse::isLeftDown() && aimed)
             in_progress = true;
@@ -107,7 +107,7 @@ public:
             linked_value = linked.lock()->linked_value;
         }
 
-        WComponent::Update(gt);
+        WComponent::Update(gt, ms);
     }
 
     bool in_progress = false;

@@ -17,7 +17,7 @@ public:
     std::shared_ptr<Texture> tex;
     glm::vec4 color = Color::White;
     void Draw() const override;
-    void Update(const GameTimer &gt) override;
+    void Update(const GameTimer &gt, const MouseState &ms) override;
 };
 
 #endif // IMAGE_BOX_H

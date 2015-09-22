@@ -4,24 +4,22 @@
         This software is distributed freely under the terms of the MIT LICENSE.
         See "LICENSE.txt"
 *******************************************************************************/
+#ifndef TREEVIEW_H
+#define TREEVIEW_H
+#include "component.h"
+#include <glm/glm.hpp>
+#include <functional>
 
-#ifndef GRAPH_H
-#define GRAPH_H
-#include "win.h"
-#include <vector>
-#include <boost/circular_buffer.hpp>
-
-class Graph : public WComponent
+class TreeView : public WComponent
 {
 public:
-    Graph(WContainer *par);
+    TreeView(WContainer *par);
+    ~TreeView();
 
     void Draw() const override;
     void Update(const GameTimer &gt, const MouseState &ms) override;
-    void AddValue(float a);
-
-    boost::circular_buffer<float> data;
-    float min = 0, max = 100;
+    std::string text;
 };
 
-#endif // GRAPH_H
+#endif // TREEVIEW_H
+

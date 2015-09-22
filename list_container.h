@@ -18,13 +18,18 @@ public:
     ~ListContainer();
 
     void Draw() const override;
-    void Update(const GameTimer &gt) override;
+    void Update(const GameTimer &gt, const MouseState &ms) override;
 
     int top = 0, bot = 0;
+
+    typedef std::shared_ptr<WComponent> WComp_ptr;
 
     Button *up, *down;
     VerticalBar *bar;
     const int stored_items_offset = 3;
+
+    size_t items_count() const;
+    void items_clear();
 private:
     void nolmalze_top_bot();
 };

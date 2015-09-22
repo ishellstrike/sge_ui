@@ -4,24 +4,23 @@
         This software is distributed freely under the terms of the MIT LICENSE.
         See "LICENSE.txt"
 *******************************************************************************/
-
-#include "button.h"
+#include "treeview.h"
 #include "wins.h"
 #include "../colorextender.h"
 #include "../mouse.h"
 #include "../helper.h"
 
-Button::Button(WContainer *par) :
+TreeView::TreeView(WContainer *par) :
     WComponent(par)
 {
 }
 
-Button::~Button()
+TreeView::~TreeView()
 {
 
 }
 
-void Button::Draw() const
+void TreeView::Draw() const
 {
     SpriteBatch &sb = *WinS::sb;
     auto pos = globalPos();
@@ -34,7 +33,7 @@ void Button::Draw() const
     WComponent::Draw();
 }
 
-void Button::Update(const GameTimer &gt, const MouseState &ms)
+void TreeView::Update(const GameTimer &gt, const MouseState &ms)
 {
     WComponent::Update(gt, ms);
 }

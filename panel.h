@@ -16,7 +16,7 @@ public:
     ~Panel();
 
     void Draw() const override;
-    void Update(const GameTimer &gt) override;
+    void Update(const GameTimer &gt, const MouseState &ms) override;
 };
 
 #endif // PANEL_H

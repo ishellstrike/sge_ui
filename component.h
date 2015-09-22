@@ -15,6 +15,30 @@
 #include <functional>
 #include "../colorextender.h"
 #include "gametimer.h"
+#include "mouse.h"
+
+#include <boost/signals2.hpp>
+
+enum ST {
+    ST_OFF,
+    ST_ON,
+    ST_PAST
+};
+
+struct MouseState {
+    ST once_l;
+    ST once_r;
+    ST once_m;
+    ST double_l;
+    ST double_r;
+    ST double_m;
+    ST triple_l;
+    ST triple_r;
+    ST triple_m;
+
+    glm::vec2 pos;
+    glm::vec2 lpos;
+};
 
 class WContainer;
 class WComponent {
@@ -33,7 +57,7 @@ public:
     WComponent(WContainer *par = nullptr);
     virtual ~WComponent();
     virtual void Draw() const = 0;
-    virtual void Update(const GameTimer &gt) = 0;
+    virtual void Update(const GameTimer &, const MouseState &) = 0;
     glm::vec2 globalPos() const;
     WContainer *parent;
 
@@ -43,10 +67,13 @@ public:
 
     ANCHOR anchor = ANCHOR_TOP_LEFT;
     std::string wcomponent_type = "error";
-    std::function<void()> onRightPress, onLeftPress;
-    std::function<void()> onRightDown, onLeftDown;
-    std::function<void()> onRightUp, onLeftUp;
-    std::function<void()> onWheelUp, onWheelDown;
+    boost::signals2::signal<bool(const ClickHandler &)> onMouseDown;
+    boost::signals2::signal<bool(const ClickHandler &)> onMouseUp;
+    boost::signals2::signal<bool(const ClickHandler &)> onMouseClick;
+    boost::signals2::signal<bool(const ClickHandler &)> onMouseDoubleClick;
+    boost::signals2::signal<bool(const ClickHandler &)> onMouseTripleClick;
+    boost::signals2::signal<void()> onWheelUp, onWheelDown;
+
     bool hidden = false;
     bool aimed = false;
     float header = 0;
@@ -60,7 +87,7 @@ public:
     virtual ~WContainer();
 
     virtual void Draw() const;
-    virtual void Update(const GameTimer &gt);
+    virtual void Update(const GameTimer &gt, const MouseState &ms);
 
 protected:
     std::vector<std::shared_ptr<WComponent>> Items;

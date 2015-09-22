@@ -47,7 +47,7 @@ void Label::append(const std::string &__s)
 void Label::Draw() const
 {
     glm::vec2 p = globalPos();
-    if(onLeftPress && aimed)
+    if(!onMouseClick.empty() && aimed)
         WinS::sb->drawText(m_text, p, size, WinS::f, WinS::color.hovered_text, m_align);
     else
         WinS::sb->drawText(m_text, p, size, WinS::f, WinS::color.text, m_align);
@@ -55,7 +55,7 @@ void Label::Draw() const
     WComponent::Draw();
 }
 
-void Label::Update(const GameTimer &gt)
+void Label::Update(const GameTimer &gt, const MouseState &ms)
 {
-    WComponent::Update(gt);
+    WComponent::Update(gt, ms);
 }

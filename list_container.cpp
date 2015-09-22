@@ -12,7 +12,8 @@
 
 void ListContainer::nolmalze_top_bot()
 {
-    top = glm::max(0, glm::min(top, (int)Items.size() - stored_items_offset));
+    top = glm::clamp(top, 0, (int)items_count());
+    bot = glm::clamp(bot, 0, (int)items_count() + 1);
     if(top < bot){
         std::swap(top, bot);
     }
@@ -34,41 +35,55 @@ ListContainer::ListContainer(WContainer *par) :
     up->text = "^";
     up->anchor = ANCHOR_TOP_RIGHT;
     up->size = {20,20};
-    up->pos = {-20,0};
-    up->onLeftPress = [&](){
-        top--;
-        nolmalze_top_bot();
-    };
+    up->pos = {-20,0};   
+    up->onMouseClick.connect( [&](const ClickHandler &mh)->bool{
+        if(mh.button == GLFW_MOUSE_BUTTON_LEFT)
+        {
+            top--;
+            nolmalze_top_bot();
+            return true;
+        }
+        return false;
+    });
 
     down = new Button(this);
     down->text = "v";
     down->anchor = ANCHOR_DOWN_RIGHT;
     down->size = {20,20};
     down->pos = {-20,-20};
-    down->onLeftPress = [&](){
-        top++;
-        nolmalze_top_bot();
-    };
+    down->onMouseClick.connect( [&](const ClickHandler &mh)->bool{
+        if(mh.button == GLFW_MOUSE_BUTTON_LEFT)
+        {
+            top--;
+            nolmalze_top_bot();
+            return true;
+        }
+        return false;
+    });
 
     bar = new VerticalBar(this);
-    up->text = "^";
     bar->anchor = ANCHOR_TOP_RIGHT;
     bar->pos = {-20, 20};
     bar->size = {20, 20};
-    bar->onLeftPress = [&](){
-        top--;
-        nolmalze_top_bot();
-    };
+    bar->onMouseClick.connect( [&](const ClickHandler &mh)->bool{
+        if(mh.button == GLFW_MOUSE_BUTTON_LEFT)
+        {
+            top--;
+            nolmalze_top_bot();
+            return true;
+        }
+        return false;
+    });
 
-    onWheelDown = [&](){
+    onWheelDown.connect( [&]{
         top++;
         nolmalze_top_bot();
-    };
+    });
 
-    onWheelUp = [&](){
+    onWheelUp.connect( [&]{
         top--;
         nolmalze_top_bot();
-    };
+    });
 }
 
 ListContainer::~ListContainer()
@@ -81,18 +96,16 @@ void ListContainer::Draw() const
     SpriteBatch &sb = *WinS::sb;
     auto pos = globalPos();
 
-    for(auto i = Items.begin() + stored_items_offset; i != Items.end(); ++i)
-    {
-        (*i)->hidden = true;
-    }
+    std::for_each(Items.begin()+=stored_items_offset, Items.end(), [](const WComp_ptr &iter){ iter->hidden = true; });
 
     int j = 0;
-    bar->top = (top)/(float)(Items.size() - stored_items_offset);
+    bar->top = (top)/(float)(items_count());
+    bar->bot = 1.0;
     for(auto i = Items.begin() + stored_items_offset + top; i != Items.end(); ++i, ++j)
     {
         if((j)*20 >= size.y)
         {
-            bar->bot = (top+j)/(float)(Items.size() - stored_items_offset);
+            bar->bot = (top+j)/(float)(items_count());
             break;
         }
         (*i)->hidden = false;
@@ -107,8 +120,18 @@ void ListContainer::Draw() const
     WContainer::Draw();
 }
 
-void ListContainer::Update(const GameTimer &gt)
+void ListContainer::Update(const GameTimer &gt, const MouseState &ms)
 {
     bar->size.y = size.y - 40;
-    WContainer::Update(gt);
+    WContainer::Update(gt, ms);
+}
+
+size_t ListContainer::items_count() const
+{
+    return Items.size() - stored_items_offset;
+}
+
+void ListContainer::items_clear()
+{
+    Items.erase(Items.begin() += stored_items_offset, Items.end());
 }
