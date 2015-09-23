@@ -112,25 +112,32 @@ void WContainer::Update(const GameTimer &gt, const MouseState &ms)
             i->aimed = true;
 
             if(ms.once_l == ST_ON)
-                i->onMouseClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_LEFT});
+                i->onMouseClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_LEFT, gt.current});
             if(ms.double_l == ST_ON)
-                i->onMouseDoubleClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_LEFT});
+                i->onMouseDoubleClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_LEFT, gt.current});
             if(ms.triple_l == ST_ON)
-                i->onMouseTripleClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_LEFT});
+                i->onMouseTripleClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_LEFT, gt.current});
 
             if(ms.once_r == ST_ON)
-                i->onMouseClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_RIGHT});
+                i->onMouseClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_RIGHT, gt.current});
             if(ms.double_r == ST_ON)
-                i->onMouseDoubleClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_RIGHT});
+                i->onMouseDoubleClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_RIGHT, gt.current});
             if(ms.triple_r == ST_ON)
-                i->onMouseTripleClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_RIGHT});
+                i->onMouseTripleClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_RIGHT, gt.current});
 
             if(ms.once_m == ST_ON)
-                i->onMouseClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_MIDDLE});
+                i->onMouseClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_MIDDLE, gt.current});
             if(ms.double_m == ST_ON)
-                i->onMouseDoubleClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_MIDDLE});
+                i->onMouseDoubleClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_MIDDLE, gt.current});
             if(ms.triple_m == ST_ON)
-                i->onMouseTripleClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_MIDDLE});
+                i->onMouseTripleClick({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_MIDDLE, gt.current});
+
+            if(ms.down_l == ST_ON)
+                i->onMouseDown({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_LEFT, gt.current});
+            if(ms.down_r == ST_ON)
+                i->onMouseDown({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_RIGHT, gt.current});
+            if(ms.down_m == ST_ON)
+                i->onMouseDown({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_MIDDLE, gt.current});
         }
         else
             i->aimed = false;

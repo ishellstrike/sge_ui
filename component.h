@@ -18,6 +18,7 @@
 #include "mouse.h"
 
 #include <boost/signals2.hpp>
+using namespace boost::signals2;
 
 enum ST {
     ST_OFF,
@@ -35,6 +36,9 @@ struct MouseState {
     ST triple_l;
     ST triple_r;
     ST triple_m;
+    ST down_l;
+    ST down_r;
+    ST down_m;
 
     glm::vec2 pos;
     glm::vec2 lpos;
@@ -67,12 +71,13 @@ public:
 
     ANCHOR anchor = ANCHOR_TOP_LEFT;
     std::string wcomponent_type = "error";
-    boost::signals2::signal<bool(const ClickHandler &)> onMouseDown;
-    boost::signals2::signal<bool(const ClickHandler &)> onMouseUp;
-    boost::signals2::signal<bool(const ClickHandler &)> onMouseClick;
-    boost::signals2::signal<bool(const ClickHandler &)> onMouseDoubleClick;
-    boost::signals2::signal<bool(const ClickHandler &)> onMouseTripleClick;
-    boost::signals2::signal<void()> onWheelUp, onWheelDown;
+
+    signal<bool(const ClickHandler &)> onMouseDown;
+    signal<bool(const ClickHandler &)> onMouseUp;
+    signal<bool(const ClickHandler &)> onMouseClick;
+    signal<bool(const ClickHandler &)> onMouseDoubleClick;
+    signal<bool(const ClickHandler &)> onMouseTripleClick;
+    signal<void()> onWheelUp, onWheelDown;
 
     bool hidden = false;
     bool aimed = false;

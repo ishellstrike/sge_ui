@@ -12,9 +12,9 @@
 
 void ListContainer::nolmalze_top_bot()
 {
-    top = glm::clamp(top, 0, (int)items_count());
+    top = glm::clamp(top, 0, (int)items_count() - 1);
     bot = glm::clamp(bot, 0, (int)items_count() + 1);
-    if(top < bot){
+    if(top > bot){
         std::swap(top, bot);
     }
 }
@@ -36,9 +36,11 @@ ListContainer::ListContainer(WContainer *par) :
     up->anchor = ANCHOR_TOP_RIGHT;
     up->size = {20,20};
     up->pos = {-20,0};   
-    up->onMouseClick.connect( [&](const ClickHandler &mh)->bool{
-        if(mh.button == GLFW_MOUSE_BUTTON_LEFT)
+    up->onMouseDown.connect( [&](const ClickHandler &mh)->bool{
+        static float last = 0;
+        if(mh.button == GLFW_MOUSE_BUTTON_LEFT && mh.time - last > 0.1)
         {
+            last = mh.time;
             top--;
             nolmalze_top_bot();
             return true;
@@ -51,10 +53,12 @@ ListContainer::ListContainer(WContainer *par) :
     down->anchor = ANCHOR_DOWN_RIGHT;
     down->size = {20,20};
     down->pos = {-20,-20};
-    down->onMouseClick.connect( [&](const ClickHandler &mh)->bool{
-        if(mh.button == GLFW_MOUSE_BUTTON_LEFT)
+    down->onMouseDown.connect( [&](const ClickHandler &mh)->bool{
+        static float last = 0;
+        if(mh.button == GLFW_MOUSE_BUTTON_LEFT && mh.time - last > 0.1)
         {
-            top--;
+            last = mh.time;
+            top++;
             nolmalze_top_bot();
             return true;
         }
@@ -65,10 +69,14 @@ ListContainer::ListContainer(WContainer *par) :
     bar->anchor = ANCHOR_TOP_RIGHT;
     bar->pos = {-20, 20};
     bar->size = {20, 20};
-    bar->onMouseClick.connect( [&](const ClickHandler &mh)->bool{
+    bar->onMouseDown.connect( [&](const ClickHandler &mh)->bool{
         if(mh.button == GLFW_MOUSE_BUTTON_LEFT)
         {
-            top--;
+            auto p = mh.pos.y - bar->globalPos().y;
+            auto s = bar->size.y;
+
+            top = items_count() * p / s;
+
             nolmalze_top_bot();
             return true;
         }

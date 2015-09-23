@@ -82,7 +82,7 @@ std::weak_ptr<WComponent> WinS::getInpos(glm::vec2 p)
     return std::weak_ptr<WComponent>();
 }
 
-#define CLICKS_UPDATE(once_l, double_l, triple_l, click)                                                               \
+#define CLICKS_UPDATE(once_l, double_l, triple_l, last_l, click)                                                               \
 if(click)                                                                                                              \
 {                                                                                                                      \
     if(once_l && gt.current - last_l < Prefecences::Instance()->double_c && double_l == ST_OFF && triple_l == ST_OFF)  \
@@ -125,11 +125,15 @@ void WinS::Update(const GameTimer &gt, const MouseState &ms) {
     pos = {0,0};
     size = {RESX, RESY};
 
-    static float last_l = 0, last_r = 0;
+    static float last_l = 0, last_r = 0, last_m = 0;
 
-    CLICKS_UPDATE(mstate.once_l, mstate.double_l, mstate.triple_l, Mouse::isLeftJustPressed());
-    CLICKS_UPDATE(mstate.once_r, mstate.double_r, mstate.triple_r, Mouse::isRightJustPressed());
-    CLICKS_UPDATE(mstate.once_m, mstate.double_m, mstate.triple_m, Mouse::isMiddleJustPressed());
+    CLICKS_UPDATE(mstate.once_l, mstate.double_l, mstate.triple_l, last_l, Mouse::isLeftJustPressed());
+    CLICKS_UPDATE(mstate.once_r, mstate.double_r, mstate.triple_r, last_r, Mouse::isRightJustPressed());
+    CLICKS_UPDATE(mstate.once_m, mstate.double_m, mstate.triple_m, last_m, Mouse::isMiddleJustPressed());
+
+    mstate.down_l = Mouse::isLeftDown() ? ST_ON : ST_OFF;
+    mstate.down_r = Mouse::isRightDown() ? ST_ON : ST_OFF;
+    mstate.down_m = Mouse::isMiddleDown() ? ST_ON : ST_OFF;
 
     KeyboardHooked = false;
     if(Items.size() > 0)
