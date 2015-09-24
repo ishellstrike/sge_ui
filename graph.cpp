@@ -46,8 +46,8 @@ void Graph::Draw() const
     sb.drawLine(glm::vec2(pos.x, pos.y + size.y), pos + size, 2, WinS::color.border_down);
     sb.drawLine(glm::vec2(pos.x + size.x, pos.y), pos + size, 2, WinS::color.border_down);
 
-    sb.drawText(string_format("%g", max), {pos.x, pos.y + 2}, WinS::f, WinS::color.text);
-    sb.drawText(string_format("%g", min), {pos.x, pos.y + size.y - 15}, WinS::f, WinS::color.text);
+    sb.drawText(sge::string_format("%g", max), {pos.x, pos.y + 2}, WinS::f, WinS::color.text);
+    sb.drawText(sge::string_format("%g", min), {pos.x, pos.y + size.y - 15}, WinS::f, WinS::color.text);
 
     WComponent::Draw();
 }

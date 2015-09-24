@@ -75,7 +75,7 @@ std::weak_ptr<WComponent> WinS::getInpos(glm::vec2 p)
         Win *w = static_cast<Win*>(iter->get());
         for (auto &iter2 = w->Items.begin(); iter2 != w->Items.end(); ++iter2)
         {
-            if (inLimsVec2(p, (*iter2)->globalPos(), (*iter2)->globalPos() + (*iter2)->size))
+            if (sge::inLimsVec2(p, (*iter2)->globalPos(), (*iter2)->globalPos() + (*iter2)->size))
                 return (*iter2);
         }
     }

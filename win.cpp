@@ -65,7 +65,7 @@ void Win::Draw() const
 void Win::Update(const GameTimer &gt, const MouseState &ms)
 {
     glm::vec2 wpos = globalPos();
-    if(!WinS::MouseHooked && inLimsVec2(Mouse::getCursorLastPos(), wpos, wpos + glm::vec2(size.x - 20, header)))
+    if(!WinS::MouseHooked && sge::inLimsVec2(Mouse::getCursorLastPos(), wpos, wpos + glm::vec2(size.x - 20, header)))
     {
         if(Mouse::isLeftJustPressed())
         {
@@ -78,7 +78,7 @@ void Win::Update(const GameTimer &gt, const MouseState &ms)
     else
         dragged = false;
 
-    if(!WinS::MouseHooked && inLimsVec2(Mouse::getCursorLastPos(), wpos + glm::vec2(size.x - 10, size.y - 10), wpos + size) && resizable)
+    if(!WinS::MouseHooked && sge::inLimsVec2(Mouse::getCursorLastPos(), wpos + glm::vec2(size.x - 10, size.y - 10), wpos + size) && resizable)
     {
         Mouse::state = Mouse::STATE_RESIZE;
         if(Mouse::isLeftJustPressed())
@@ -103,7 +103,7 @@ void Win::Update(const GameTimer &gt, const MouseState &ms)
     else
         resizing = false;
 
-    if(!WinS::MouseHooked && inLimsVec2(Mouse::getCursorLastPos(), wpos, wpos + size) && !hidden)
+    if(!WinS::MouseHooked && sge::inLimsVec2(Mouse::getCursorLastPos(), wpos, wpos + size) && !hidden)
     {
         if(Mouse::isLeftJustPressed())
         {

@@ -9,8 +9,8 @@
 #include "component.h"
 #include <glm/glm.hpp>
 #include <functional>
-
-#include <boost/graph/adjacency_list.hpp>
+#include <core/tree.h>
+#include "spritebatch.h"
 
 class TreeView : public WContainer
 {
@@ -18,29 +18,13 @@ public:
     TreeView(WContainer *par);
     ~TreeView();
 
-    struct Vertex;
-
-    typedef std::pair<int,int> E;
-    typedef boost::adjacency_list<> Graph;
-
-    struct Vertex
-    {
-        WComponent *store;
-        int index = 0;
-
-        std::shared_ptr<Graph> &gr;
-        std::vector<std::shared_ptr<Vertex>> &stored;
-
-        Vertex(std::shared_ptr<Graph> &__gr, std::vector<std::shared_ptr<Vertex>> &__stored);
-        std::shared_ptr<TreeView::Vertex> add_child(WComponent *wc);
-    };
-
-    std::shared_ptr<Graph> g;
-    std::vector<std::shared_ptr<Vertex>> stored;
+    Tree<WComponent> tree;
 
     void Draw() const override;
     void Update(const GameTimer &gt, const MouseState &ms) override;
     std::string text;
+private:
+    void wide(const Tree<WComponent>::root_type root, SpriteBatch &sb, int x, int y, bool from_sister) const;
 };
 
 #endif // TREEVIEW_H

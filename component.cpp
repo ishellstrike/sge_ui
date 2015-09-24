@@ -107,7 +107,7 @@ void WContainer::Update(const GameTimer &gt, const MouseState &ms)
 
         i->Update(gt, ms);
 
-        if(!mouse_hook && inLimsVec2(Mouse::getCursorPos(), i->globalPos(), i->globalPos() + i->size))
+        if(!mouse_hook && sge::inLimsVec2(Mouse::getCursorPos(), i->globalPos(), i->globalPos() + i->size))
         {
             i->aimed = true;
 

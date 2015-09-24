@@ -10,32 +10,52 @@
 #include "../mouse.h"
 #include "../helper.h"
 
-#include <boost/graph/graph_traits.hpp>
 #include <sge_ui/label.h>
+
+void add_r(const Tree<WComponent>::root_type root, int x)
+{
+    if(x <= 0) return;
+    for(int i =5;i<rand()%20;i++)
+    {
+        auto t = new Label(root->data->parent);
+        auto tt = root->add_sister(t);
+        if(rand()%25 == 1)
+            add_r(tt, x - 1);
+    }
+    auto t = new Label(root->data->parent);
+    auto tt = root->add_child(t);
+    add_r(tt, x - 1);
+}
 
 TreeView::TreeView(WContainer *par) :
     WContainer(par)
 {
-    g = std::make_shared<Graph>(1);
-    auto v = std::make_shared<Vertex>(g, stored);
-    stored.push_back(v);
+    auto t = new Label(this);
+    auto tt = tree.root->add_child(t);
 
-    auto ll = new Label(this);
-    v->add_child(ll);
-
-    ll = new Label(this);
-    auto out = v->add_child(ll);
-
-    ll = new Label(this);
-    out->add_child(ll);
-
-    ll = new Label(this);
-    out->add_child(ll);
+    add_r(tt, 30);
 }
 
 TreeView::~TreeView()
 {
 
+}
+
+void TreeView::wide(const Tree<WComponent>::root_type root, SpriteBatch &sb, int x, int y, bool from_sister) const
+{
+    sb.drawLine({x - (from_sister ? 0 : 20), y - (!from_sister? 0 : 20)}, {x,y}, 2, Color::DarkRed);
+    sb.drawText("a", {x, y}, WinS::f, Color::Red);
+    if(root->sister)
+    {
+        y+=20;
+        wide(root->sister, sb, x, y, true);
+    }
+    if(root->child)
+    {
+        x+=20;
+        wide(root->child, sb, x, y, false);
+    }
+    x-=20;
 }
 
 void TreeView::Draw() const
@@ -46,14 +66,7 @@ void TreeView::Draw() const
     bool pressed = Mouse::isLeftDown() && aimed;
     DRAW_BOX(sb, pos, size, pressed);
 
-    WinS::sb->drawText(text, pos, size, WinS::f, aimed ? WinS::color.hovered_text : WinS::color.text, SpriteBatch::ALIGN_CENTER);
-
-    typedef boost::graph_traits<Graph>::vertex_iterator vertex_iter;
-    std::pair<vertex_iter, vertex_iter> vp;
-    for (vp = boost::vertices(*g); vp.first != vp.second; ++vp.first)
-    {
-        LOG(info) << *vp.first << " " << *vp.second;
-    }
+    wide(tree.root, sb, 0, 0, false);
 
     WComponent::Draw();
 }
@@ -61,25 +74,4 @@ void TreeView::Draw() const
 void TreeView::Update(const GameTimer &gt, const MouseState &ms)
 {
     WComponent::Update(gt, ms);
-}
-
-
-
-TreeView::Vertex::Vertex(std::shared_ptr<TreeView::Graph> &__gr, std::vector<std::shared_ptr<Vertex> > &__stored) : gr(__gr), stored(__stored)
-{
-
-}
-
-std::shared_ptr<TreeView::Vertex> TreeView::Vertex::add_child(WComponent *wc)
-{
-    int post_last = stored.size() - 1;
-    auto a = std::make_shared<Vertex>(gr, stored);
-    a->store = wc;
-    index = post_last;
-
-    stored.push_back(a);
-    auto n = boost::add_vertex(*gr);
-    boost::add_edge(index, n, *gr);
-
-    return stored[post_last];
 }
