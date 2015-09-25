@@ -43,8 +43,12 @@ TreeView::~TreeView()
 
 void TreeView::wide(const Tree<WComponent>::root_type root, SpriteBatch &sb, int x, int y, bool from_sister) const
 {
-    sb.drawLine({x - (from_sister ? 0 : 20), y - (!from_sister? 0 : 20)}, {x,y}, 2, Color::DarkRed);
-    sb.drawText("a", {x, y}, WinS::f, Color::Red);
+    auto pos = globalPos();
+
+    sb.drawLine(pos + glm::vec2(x - (from_sister ? 0 : 20), y - 20), pos + glm::vec2(x, y), 2, Color::DarkRed);
+    //sb.drawText("a", {x, y}, WinS::f, Color::Red);
+    if(root->data)
+        root->data->pos = {x,y};
     if(root->sister)
     {
         y+=20;
@@ -53,6 +57,7 @@ void TreeView::wide(const Tree<WComponent>::root_type root, SpriteBatch &sb, int
     if(root->child)
     {
         x+=20;
+        y+=20;
         wide(root->child, sb, x, y, false);
     }
     x-=20;
@@ -66,12 +71,13 @@ void TreeView::Draw() const
     bool pressed = Mouse::isLeftDown() && aimed;
     DRAW_BOX(sb, pos, size, pressed);
 
-    wide(tree.root, sb, 0, 0, false);
 
-    WComponent::Draw();
+    WContainer::Draw();
+
+    wide(tree.root, sb, 0, 0, false);
 }
 
 void TreeView::Update(const GameTimer &gt, const MouseState &ms)
 {
-    WComponent::Update(gt, ms);
+    WContainer::Update(gt, ms);
 }

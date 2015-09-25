@@ -138,6 +138,12 @@ void WContainer::Update(const GameTimer &gt, const MouseState &ms)
                 i->onMouseDown({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_RIGHT, gt.current});
             if(ms.down_m == ST_ON)
                 i->onMouseDown({Mouse::getCursorPos(), GLFW_MOUSE_BUTTON_MIDDLE, gt.current});
+
+            if(Mouse::isWheelUp())
+                i->onWheelUp();
+
+            if(Mouse::isWheelDown())
+                i->onWheelDown();
         }
         else
             i->aimed = false;
