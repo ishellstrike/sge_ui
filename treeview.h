@@ -25,6 +25,7 @@ public:
     std::string text;
 private:
     void wide(const Tree<WComponent>::root_type root, SpriteBatch &sb, int x, int y, bool from_sister) const;
+    void wide_hide(const Tree<WComponent>::root_type root) const;
 };
 
 #endif // TREEVIEW_H
