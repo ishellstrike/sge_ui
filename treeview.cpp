@@ -18,28 +18,28 @@ void add_r(const Tree<WComponent>::root_type root, int x)
     for(int i =5;i<rand()%20;i++)
     {
         auto t = new Label(root->data->parent);
-        t->onMouseClick.connect([&](const ClickHandler &mh)->bool{
+        auto tt = root->add_sister(t);
+        t->onMouseClick.connect([=](const ClickHandler &mh)->bool{
             if(mh.button == GLFW_MOUSE_BUTTON_LEFT)
             {
-                t->hidden = !t->hidden;
+                tt->expanded = !tt->expanded;
                 return true;
             }
             return false;
         });
-        auto tt = root->add_sister(t);
         if(rand()%25 == 1)
             add_r(tt, x - 1);
     }
     auto t = new Label(root->data->parent);
-    t->onMouseClick.connect([&](const ClickHandler &mh)->bool{
+    auto tt = root->add_child(t);
+    t->onMouseClick.connect([=](const ClickHandler &mh)->bool{
         if(mh.button == GLFW_MOUSE_BUTTON_LEFT)
         {
-            t->hidden = !t->hidden;
+            tt->expanded = !tt->expanded;
             return true;
         }
         return false;
     });
-    auto tt = root->add_child(t);
     add_r(tt, x - 1);
 }
 
@@ -48,6 +48,14 @@ TreeView::TreeView(WContainer *par) :
 {
     auto t = new Label(this);
     auto tt = tree.root->add_child(t);
+    t->onMouseClick.connect([=](const ClickHandler &mh)->bool{
+        if(mh.button == GLFW_MOUSE_BUTTON_LEFT)
+        {
+            tt->expanded = !tt->expanded;
+            return true;
+        }
+        return false;
+    });
 
     add_r(tt, 30);
 }

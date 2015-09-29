@@ -140,7 +140,7 @@ void WinS::Update(const GameTimer &gt, const MouseState &ms) {
         Items[Items.size() - 1]->Update(gt, mstate);
     KeyboardHooked = true; //only top win can read keyboard
 
-    for(int i = Items.size() - 1; i >= 0; --i)
+    for(int i = Items.size() - 2; i >= 0; --i)
     {
         if(!Items[i]->hidden)
             Items[i]->Update(gt, mstate);
