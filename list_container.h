@@ -28,8 +28,8 @@ public:
     VerticalBar *bar;
     const int stored_items_offset = 3;
 
-    size_t items_count() const;
-    void items_clear();
+    size_t ItemsCount() const;
+    void ItemsClear();
 private:
     void nolmalze_top_bot();
 };

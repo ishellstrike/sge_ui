@@ -76,7 +76,7 @@ public:
         for(int i = 1; i<len/5; ++i)
         {
             auto t = bezier(start - glm::vec2(len*2,len*2), start, end, end + glm::vec2(len*2,len*2), i * 1/(len/5));
-            sb.drawLine(pre, t, wi, col);
+            sb.drawLine(pre, t, float(wi), col);
             pre = t;
         }
     }

@@ -14,6 +14,8 @@
 #include <boost/signals2.hpp>
 #include "button.h"
 #include "component.h"
+#include "rapidjson/document.h"
+#include "core/serialize.h"
 
 class Win : public WContainer
 {
@@ -35,6 +37,8 @@ public:
     std::string text;
 
     Button *closeb;
+
+    void Deserialize(const rapidjson::Value &val) override;
 };
 
 #endif // Win_h__

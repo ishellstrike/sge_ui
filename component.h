@@ -16,8 +16,10 @@
 #include "../colorextender.h"
 #include "gametimer.h"
 #include "mouse.h"
+#include "core/serialize.h"
 
 #include <boost/signals2.hpp>
+#include <boost/any.hpp>
 using namespace boost::signals2;
 
 enum ST {
@@ -82,6 +84,9 @@ public:
     bool hidden = false;
     bool aimed = false;
     float header = 0;
+    boost::any tag;
+
+    virtual void Deserialize(const rapidjson::Value &val);
 };
 
 class WContainer : public WComponent {
@@ -93,6 +98,8 @@ public:
 
     virtual void Draw() const;
     virtual void Update(const GameTimer &gt, const MouseState &ms);
+
+    virtual void Deserialize(const rapidjson::Value &val);
 
 protected:
     std::vector<std::shared_ptr<WComponent>> Items;

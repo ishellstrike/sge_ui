@@ -74,6 +74,11 @@ glm::vec2 WComponent::globalPos() const
     }
 }
 
+void WComponent::Deserialize(const rapidjson::Value &val)
+{
+    DESERIALIZE(NVP(wcomponent_type), NVP(hidden), NVP(aimed), NVP(header), NVP(anchor), NVP(pos), NVP(size));
+}
+
 
 WContainer::WContainer(WContainer *par) :
     WComponent(par)

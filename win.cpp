@@ -127,3 +127,8 @@ void Win::MoveUnderCur()
         pos.y = RESY - size.y;
     }
 }
+
+void Win::Deserialize(const rapidjson::Value &val)
+{
+    DESERIALIZE(NVP(movable), NVP(resizable), NVP(text));
+}
