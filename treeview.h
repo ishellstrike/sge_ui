@@ -21,7 +21,7 @@ public:
     Tree<WComponent> tree;
 
     void Draw() const override;
-    void Update(const GameTimer &gt, const MouseState &ms) override;
+    void Update(const GameTimer& gt, const MouseState &ms) override;
     std::string text;
 private:
     void wide(const Tree<WComponent>::root_type root, SpriteBatch &sb, int x, int y, bool from_sister) const;

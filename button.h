@@ -18,7 +18,7 @@ public:
     ~Button();
 
     void Draw() const override;
-    void Update(const GameTimer &gt, const MouseState &ms) override;
+    void Update(const GameTimer& gt, const MouseState &ms) override;
     std::string text;
 };
 

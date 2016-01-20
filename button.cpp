@@ -34,7 +34,7 @@ void Button::Draw() const
     WComponent::Draw();
 }
 
-void Button::Update(const GameTimer &gt, const MouseState &ms)
+void Button::Update(const GameTimer& gt, const MouseState &ms)
 {
     WComponent::Update(gt, ms);
 }

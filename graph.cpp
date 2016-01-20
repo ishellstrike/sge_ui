@@ -52,7 +52,7 @@ void Graph::Draw() const
     WComponent::Draw();
 }
 
-void Graph::Update(const GameTimer &gt, const MouseState &ms)
+void Graph::Update(const GameTimer& gt, const MouseState &ms)
 {
     WComponent::Update(gt, ms);
 }

@@ -17,7 +17,7 @@ public:
     Graph(WContainer *par);
 
     void Draw() const override;
-    void Update(const GameTimer &gt, const MouseState &ms) override;
+    void Update(const GameTimer& gt, const MouseState &ms) override;
     void AddValue(float a);
 
     boost::circular_buffer<float> data;

@@ -12,8 +12,8 @@
 
 void ListContainer::nolmalze_top_bot()
 {
-    top = glm::clamp(top, 0, (int)items_count() - 1);
-    bot = glm::clamp(bot, 0, (int)items_count() + 1);
+    top = glm::clamp(top, 0, (int)ItemsCount() - 1);
+    bot = glm::clamp(bot, 0, (int)ItemsCount() + 1);
     if(top > bot){
         std::swap(top, bot);
     }
@@ -75,7 +75,7 @@ ListContainer::ListContainer(WContainer *par) :
             auto p = mh.pos.y - bar->globalPos().y;
             auto s = bar->size.y;
 
-            top = items_count() * p / s;
+            top = ItemsCount() * p / s;
 
             nolmalze_top_bot();
             return true;
@@ -107,13 +107,13 @@ void ListContainer::Draw() const
     std::for_each(Items.begin()+=stored_items_offset, Items.end(), [](const WComp_ptr &iter){ iter->hidden = true; });
 
     int j = 0;
-    bar->top = (top)/(float)(items_count());
+    bar->top = (top)/(float)(ItemsCount());
     bar->bot = 1.0;
     for(auto i = Items.begin() + stored_items_offset + top; i != Items.end(); ++i, ++j)
     {
         if((j)*20 >= size.y)
         {
-            bar->bot = (top+j)/(float)(items_count());
+            bar->bot = (top+j)/(float)(ItemsCount());
             break;
         }
         (*i)->hidden = false;
@@ -134,12 +134,12 @@ void ListContainer::Update(const GameTimer &gt, const MouseState &ms)
     WContainer::Update(gt, ms);
 }
 
-size_t ListContainer::items_count() const
+size_t ListContainer::ItemsCount() const
 {
     return Items.size() - stored_items_offset;
 }
 
-void ListContainer::items_clear()
+void ListContainer::ItemsClear()
 {
     Items.erase(Items.begin() += stored_items_offset, Items.end());
 }

@@ -18,7 +18,7 @@ public:
     ~ListContainer();
 
     void Draw() const override;
-    void Update(const GameTimer &gt, const MouseState &ms) override;
+    void Update(const GameTimer& gt, const MouseState &ms) override;
 
     int top = 0, bot = 0;
 
@@ -28,8 +28,8 @@ public:
     VerticalBar *bar;
     const int stored_items_offset = 3;
 
-    size_t items_count() const;
-    void items_clear();
+    size_t ItemsCount() const;
+    void ItemsClear();
 private:
     void nolmalze_top_bot();
 };

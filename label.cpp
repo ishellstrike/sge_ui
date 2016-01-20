@@ -55,7 +55,7 @@ void Label::Draw() const
     WComponent::Draw();
 }
 
-void Label::Update(const GameTimer &gt, const MouseState &ms)
+void Label::Update(const GameTimer& gt, const MouseState &ms)
 {
     WComponent::Update(gt, ms);
 }
