@@ -18,7 +18,7 @@ public:
     ~ListContainer();
 
     void Draw() const override;
-    void Update(const GameTimer &gt, const MouseState &ms) override;
+    void Update(const GameTimer& gt, const MouseState &ms) override;
 
     int top = 0, bot = 0;
 

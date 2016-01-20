@@ -119,7 +119,7 @@ if(gt.current - last_l > Prefecences::Instance()->double_c)                     
     if(triple_l == ST_ON)                       \
         triple_l = ST_PAST;
 
-void WinS::Update(const GameTimer &gt, const MouseState &ms) {
+void WinS::Update(const GameTimer& gt, const MouseState &ms) {
     MouseHooked = false;
 
     pos = {0,0};

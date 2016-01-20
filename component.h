@@ -63,7 +63,7 @@ public:
     WComponent(WContainer *par = nullptr);
     virtual ~WComponent();
     virtual void Draw() const = 0;
-    virtual void Update(const GameTimer &, const MouseState &) = 0;
+    virtual void Update(const GameTimer&, const MouseState &) = 0;
     glm::vec2 globalPos() const;
     WContainer *parent;
 
@@ -97,7 +97,7 @@ public:
     virtual ~WContainer();
 
     virtual void Draw() const;
-    virtual void Update(const GameTimer &gt, const MouseState &ms);
+    virtual void Update(const GameTimer& gt, const MouseState &ms);
 
     virtual void Deserialize(const rapidjson::Value &val);
 

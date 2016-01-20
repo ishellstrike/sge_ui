@@ -23,7 +23,7 @@ public:
     Win(WContainer *par);
     virtual ~Win();
     void Draw() const override;
-    void Update(const GameTimer &gt, const MouseState &ms) override;
+    void Update(const GameTimer& gt, const MouseState &ms) override;
     glm::vec2 drag_point;
     bool dragged = false;
     bool resizing = false;

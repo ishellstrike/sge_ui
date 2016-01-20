@@ -53,7 +53,7 @@ void DragNumbox::Draw() const
     WComponent::Draw();
 }
 
-void DragNumbox::Update(const GameTimer &gt, const MouseState &ms)
+void DragNumbox::Update(const GameTimer& gt, const MouseState &ms)
 {
     auto pos = globalPos();
 

@@ -32,7 +32,7 @@ public:
     static bool KeyboardHooked;
     static ColorScheme color;
 
-    void Update(const GameTimer &gt, const MouseState &ms);
+    void Update(const GameTimer& gt, const MouseState &ms);
     void ToTop(WComponent *w);
     void CloseTop();
     std::weak_ptr<WComponent> getInpos(glm::vec2 p);

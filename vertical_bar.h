@@ -18,7 +18,7 @@ public:
     float top = 0.1f, bot = 0.9f;
 
     void Draw() const override;
-    void Update(const GameTimer &gt, const MouseState &ms) override;
+    void Update(const GameTimer& gt, const MouseState &ms) override;
 };
 
 #endif // VERTICAL_BAR_H
