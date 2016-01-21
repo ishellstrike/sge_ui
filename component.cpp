@@ -76,7 +76,7 @@ glm::vec2 WComponent::globalPos() const
 
 void WComponent::Deserialize(const rapidjson::Value &val)
 {
-    DESERIALIZE(NVP(wcomponent_type), NVP(hidden), NVP(aimed), NVP(header), NVP(anchor), NVP(pos), NVP(size));
+    //DESERIALIZE(NVP(wcomponent_type), NVP(hidden), NVP(aimed), NVP(header), NVP(anchor), NVP(pos), NVP(size));
 }
 
 
@@ -154,4 +154,9 @@ void WContainer::Update(const GameTimer &gt, const MouseState &ms)
             i->aimed = false;
     }
     WComponent::Update(gt, ms);
+}
+
+void WContainer::Deserialize(const rapidjson::Value &val)
+{
+
 }

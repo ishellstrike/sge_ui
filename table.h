@@ -39,14 +39,19 @@ public:
     void Clear();
     std::vector<std::vector<boost::any>> table;
     std::vector<Column> columns;
+    void SortBy(int by, bool noreverse = false);
 
     void Draw() const override;
     void Update(const GameTimer& gt, const MouseState &ms) override;
     int hovered = -1;
+    int selected = 0;
 private:
     std::string m_text;
     SpriteBatch::ALIGN m_align = SpriteBatch::ALIGN_LEFT;
     int m_count = 0;
+    bool sorted = false;
+    int sort_by = 0;
+    bool reverse_sort = true;
 };
 
 #endif // TABLE_H

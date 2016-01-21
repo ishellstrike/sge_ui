@@ -29,6 +29,7 @@ void Table::AddRow(const std::vector<boost::any> &row)
         throw std::logic_error(sge::string_format("row width (%d) not equals table width (%d)", row.size(), m_count));
 
     table.push_back(row);
+    sorted = false;
 }
 
 void Table::Clear()
@@ -36,8 +37,52 @@ void Table::Clear()
     table.clear();
 }
 
-void Table::Draw() const
+void Table::SortBy(int by, bool noreverse)
 {
+    if(sort_by == by && !noreverse)
+        reverse_sort = !reverse_sort;
+
+    sort_by = by;
+    if(!reverse_sort)
+        std::sort(std::begin(table), std::end(table), [&](const std::vector<boost::any> &a, const std::vector<boost::any> &b) -> bool
+        {
+            if(a[by].type() != b[by].type())
+                return false;
+
+            if(a[by].type() == boost::typeindex::type_id<int>().type_info())
+                return boost::any_cast<int>(a[by]) < boost::any_cast<int>(b[by]);
+
+            if(a[by].type() == boost::typeindex::type_id<float>().type_info())
+                return boost::any_cast<float>(a[by]) < boost::any_cast<float>(b[by]);
+
+            if(a[by].type() == boost::typeindex::type_id<const char *>().type_info())
+                return std::string(boost::any_cast<const char *>(a[by])) < std::string(boost::any_cast<const char *>(b[by]));
+
+            return false;
+        });
+    else
+        std::sort(std::begin(table), std::end(table), [&](const std::vector<boost::any> &a, const std::vector<boost::any> &b) -> bool
+        {
+            if(a[by].type() != b[by].type())
+                return false;
+
+            if(a[by].type() == boost::typeindex::type_id<int>().type_info())
+                return boost::any_cast<int>(a[by]) > boost::any_cast<int>(b[by]);
+
+            if(a[by].type() == boost::typeindex::type_id<float>().type_info())
+                return boost::any_cast<float>(a[by]) > boost::any_cast<float>(b[by]);
+
+            if(a[by].type() == boost::typeindex::type_id<const char *>().type_info())
+                return std::string(boost::any_cast<const char *>(a[by])) > std::string(boost::any_cast<const char *>(b[by]));
+
+            return false;
+        });
+
+    sorted = true;
+}
+
+void Table::Draw() const
+{   
     glm::vec2 p = globalPos();
     SpriteBatch &sb = *WinS::sb;
 
@@ -48,7 +93,10 @@ void Table::Draw() const
     int x_off = 0;
     for(int i = 0; i < m_count; ++i)
     {
-        sb.drawText(columns[i].name, p + glm::vec2(x_off, 2), WinS::f, WinS::color.border_up);
+        if(i == sort_by)
+            sb.drawText(columns[i].name + (reverse_sort ? " (v)" : " (^)"), p + glm::vec2(x_off, 2), WinS::f, WinS::color.border_up);
+        else
+            sb.drawText(columns[i].name, p + glm::vec2(x_off, 2), WinS::f, WinS::color.border_up);
         sb.drawLine(p + glm::vec2(x_off, 0), p + glm::vec2(x_off, size.y), 2, WinS::color.border_up);
         x_off += size_without_abs * columns[i].width + columns[i].abs_width;
     }
@@ -70,7 +118,8 @@ void Table::Draw() const
                 res = boost::any_cast<const char *>(a);
             else res = a.type().name();
 
-            sb.drawText(res, p + glm::vec2(x_off, y_off), WinS::f, hovered == j ? WinS::color.hovered_text : WinS::color.text);
+            sb.drawText(res, p + glm::vec2(x_off, y_off), WinS::f, hovered == j || selected == j ?
+                                                                   WinS::color.hovered_text : WinS::color.text);
             x_off += size_without_abs * columns[i].width + columns[i].abs_width;
         }
         y_off += 20;
@@ -83,8 +132,39 @@ void Table::Update(const GameTimer &gt, const MouseState &ms)
     hovered = -1;
     if(aimed)
     {
-        hovered = (Mouse::getCursorPos().y - globalPos().y) / 20 - 1;
+        hovered = glm::trunc((Mouse::getCursorPos().y - globalPos().y) / 20.f) - 1;
+        if(Mouse::isLeftJustPressed())
+        {
+            selected = hovered;
+            int size_without_abs = size.x;
+            for(int i = 0; i < m_count; ++i)
+                size_without_abs -= columns[i].abs_width;
+
+            int sel = 0;
+            int offx = 0, lastx = 0;
+            float cpos = Mouse::getCursorPos().x - globalPos().x;
+            if(hovered == -1)
+            {
+                for(int i = 0; i < m_count; ++i)
+                {
+                    lastx = offx;
+                    offx += size_without_abs * columns[i].width + columns[i].abs_width;
+
+                    if(cpos > lastx && cpos < offx)
+                    {
+                        sel = i;
+                        break;
+                    }
+                }
+
+                SortBy(sel);
+            }
+        }
     }
+
+    if(!sorted)
+        SortBy(sort_by, true);
+
     WComponent::Update(gt, ms);
 }
 
