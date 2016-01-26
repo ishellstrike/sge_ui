@@ -21,6 +21,7 @@ public:
     std::string name;
     float width = 0;
     int abs_width = 0;
+    bool hidden = false;
 };
 
 class Table : public WComponent

@@ -11,6 +11,7 @@
 #include "button.h"
 #include "vertical_bar.h"
 
+//BUG: после отрисовки scisor не восстанавливается до предыдущего значения
 class ListContainer : public WContainer
 {
 public:
@@ -28,8 +29,8 @@ public:
     VerticalBar *bar;
     const int stored_items_offset = 3;
 
-    size_t ItemsCount() const;
-    void ItemsClear();
+    size_t Count() const;
+    void Clear();
 private:
     void nolmalze_top_bot();
 };

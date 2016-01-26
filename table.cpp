@@ -19,8 +19,6 @@ void Table::Init(int count)
         throw std::logic_error(sge::string_format("width already initialized (%d)", m_count));
     m_count = count;
     columns.resize(count);
-    for(int i = 0; i < count; i++)
-        columns[i].width = 1.f/float(count);
 }
 
 void Table::AddRow(const std::vector<boost::any> &row)
@@ -93,6 +91,8 @@ void Table::Draw() const
     int x_off = 0;
     for(int i = 0; i < m_count; ++i)
     {
+        if(columns[i].hidden)
+            continue;
         if(i == sort_by)
             sb.drawText(columns[i].name + (reverse_sort ? " (v)" : " (^)"), p + glm::vec2(x_off, 2), WinS::f, WinS::color.border_up);
         else
@@ -107,6 +107,9 @@ void Table::Draw() const
         int x_off = 0;
         for(int i = 0; i < m_count; ++i)
         {
+            if(columns[i].hidden)
+                continue;
+
             const boost::any &a = table[j][i];
             std::string res;
 
